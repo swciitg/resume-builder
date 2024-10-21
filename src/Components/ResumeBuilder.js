@@ -1,71 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const ResumeBuilder = () => {
-    const [resumeData, setResumeData] = useState({
-        personalInfo: {
-            name: '',
-            rollNumber: '',
-            courseBranch: '',
-            contactNumber: '',
-            email: '',
-            githubProfile: '',
-            linkedinProfile: '',
-        },
-        education: [
-            {
-                degree: '',
-                institute: '',
-                cgpa: '',
-                year: '',
-            },
-        ],
-        experience: [
-            {
-                title: '',
-                designation: '',
-                timeline: '',
-                description: '',
-            },
-        ],
-        projects: [
-            {
-                name: '',
-                type: '',
-                timeline: '',
-                githubLink: '',
-                description: '',
-            },
-        ],
-        technicalSkills: [
-            {
-                category: '',
-                skills: '',
-            },
-        ],
-        courses: [
-            {
-                category: '',
-                courseName: '',
-            },
-        ],
-        positions: [
-            {
-                title: '',
-                organization: '',
-                timeline: '',
-                description: '',
-            },
-        ],
-        achievements: [
-            {
-                title: '',
-                description: '',
-                year: '',
-            },
-        ],
-    });
+const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
 
-    const [errors, setErrors] = useState({});
+
 
     const validate = () => {
         let tempErrors = {};
@@ -94,6 +31,7 @@ const ResumeBuilder = () => {
         });
     };
 
+
     const addEntry = (section) => {
         const updatedData = { ...resumeData };
         updatedData[section].push({
@@ -106,6 +44,7 @@ const ResumeBuilder = () => {
         setResumeData(updatedData);
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
@@ -113,6 +52,8 @@ const ResumeBuilder = () => {
             console.log('Form Submitted:', resumeData);
         }
     };
+
+
 
     return (
         <form className="container mx-auto p-4" onSubmit={handleSubmit}>
@@ -472,7 +413,7 @@ const ResumeBuilder = () => {
             </section>
 
             {/* Submit Button */}
-            <button className="bg-blue-500 text-white px-4 py-2 rounded btn-submit" type="submit">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center " type="submit">
                 Submit Resume
             </button>
         </form>
