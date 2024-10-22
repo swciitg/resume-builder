@@ -1,4 +1,4 @@
-const { z } = require('zod');
+const { z } = require("zod");
 
 // Education Schema
 const EducationSchema = z.object({
@@ -6,14 +6,14 @@ const EducationSchema = z.object({
   institute: z.string(),
   board: z.string(),
   cgpaOrPercentage: z.number().optional(), // Optional field for CGPA or percentage
-  year: z.number().int()
+  year: z.number().int(),
 });
 
 // Experience Schema
 const ExperienceSchema = z.object({
   designation: z.string(),
   description: z.array(z.string()), // Array of descriptions
-  timeline: z.string()
+  timeline: z.string(),
 });
 
 // Project Schema
@@ -22,32 +22,32 @@ const ProjectSchema = z.object({
   projectType: z.string(),
   description: z.array(z.string()), // Array of descriptions
   githubLink: z.string().url().optional(), // Optional GitHub link
-  timeline: z.string()
+  timeline: z.string(),
 });
 
 // Technical Skills Schema
 const TechnicalSkillsSchema = z.object({
-  categories: z.record(z.array(z.string())) // Record of category names as keys, and arrays of skills as values
+  categories: z.record(z.array(z.string())), // Record of category names as keys, and arrays of skills as values
 });
 
 // Key Course Schema
 const KeyCourseSchema = z.object({
   category: z.string(),
-  name: z.string()
+  name: z.string(),
 });
 
 // Responsibilities Schema
 const ResponsibilitySchema = z.object({
   title: z.string(),
   description: z.array(z.string()), // Array of descriptions
-  timeline: z.string()
+  timeline: z.string(),
 });
 
 // Achievements Schema
 const AchievementSchema = z.object({
   title: z.string(),
   description: z.string().optional(), // Optional description
-  year: z.number().int()
+  year: z.number().int(),
 });
 
 // Main Resume Schema
@@ -66,7 +66,7 @@ const ResumeSchema = z.object({
   technicalSkills: TechnicalSkillsSchema, // TechnicalSkills object
   keyCourses: z.array(KeyCourseSchema), // Array of KeyCourse objects
   responsibilities: z.array(ResponsibilitySchema), // Array of Responsibility objects
-  achievements: z.array(AchievementSchema) // Array of Achievement objects
+  achievements: z.array(AchievementSchema), // Array of Achievement objects
 });
 
 module.exports = {
@@ -77,5 +77,5 @@ module.exports = {
   KeyCourseSchema,
   ResponsibilitySchema,
   AchievementSchema,
-  ResumeSchema
+  ResumeSchema,
 };
