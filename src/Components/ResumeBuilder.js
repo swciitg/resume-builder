@@ -1,16 +1,11 @@
 import React from 'react';
 
 const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
-
-
-
     const validate = () => {
         let tempErrors = {};
-        // Validate personal information
         if (!resumeData.personalInfo.name) tempErrors.name = "Name is required";
         if (!resumeData.personalInfo.contactNumber) tempErrors.contactNumber = "Contact Number is required";
         if (!resumeData.personalInfo.email) tempErrors.email = "Email is required";
-
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0; // Return true if no errors
     };
@@ -31,8 +26,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
         });
     };
 
-
-    const addEntry = (section) => {
+    const addProjects = (section) => {
         const updatedData = { ...resumeData };
         updatedData[section].push({
             name: '',
@@ -43,7 +37,25 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
         });
         setResumeData(updatedData);
     };
-
+    const addPor = (section) => {
+        const updatedData = { ...resumeData };
+        updatedData[section].push({
+            title: '',
+            organization: '',
+            timeline: '',
+            description: '',
+        });
+        setResumeData(updatedData);
+    };
+    const addAchievements = (section) => {
+        const updatedData = { ...resumeData };
+        updatedData[section].push({
+            title: '',
+            description: '',
+            year: '',
+        });
+        setResumeData(updatedData);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -52,7 +64,6 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
             console.log('Form Submitted:', resumeData);
         }
     };
-
 
 
     return (
@@ -267,7 +278,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
 
                 <div className="mb-4">
                     <button
-                        onClick={() => addEntry('projects')}
+                        onClick={() => addProjects('projects')}
                         className="bg-blue-500 text-white px-4 py-2 rounded"
                     >
                         Add Another Project
@@ -336,7 +347,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
             <section className="mb-6">
                 <h2 className="text-xl font-semibold mb-4">Positions of Responsibility</h2>
                 {resumeData.positions.map((position, index) => (
-                    <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input
                             type="text"
                             placeholder="Position Title"
@@ -374,13 +385,22 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+                <div className="mb-4">
+                    <button
+                        onClick={() => addPor('positions')}
+                        type="button"
+                        className="bg-blue-500 text-white px-4 py-2 rounded "
+                    >
+                        Add Another Position of Responsibility
+                    </button>
+                </div>
             </section>
 
             {/* Achievements Section */}
             <section className="mb-6">
                 <h2 className="text-xl font-semibold mb-4">Achievements</h2>
                 {resumeData.achievements.map((achievement, index) => (
-                    <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input
                             type="text"
                             placeholder="Achievement Title"
@@ -410,10 +430,19 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+                <div className="mb-4">
+                    <button
+                        onClick={() => addAchievements('achievements')}
+                        type="button"
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Another Achievement
+                    </button>
+                </div>
             </section>
 
             {/* Submit Button */}
-            <button className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center " type="submit">
+            <button onClick={()=>{console.log(resumeData)}} className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center mt-8 " type="submit">
                 Submit Resume
             </button>
         </form>
