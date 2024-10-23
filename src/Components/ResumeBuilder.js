@@ -211,6 +211,15 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+
+<div className="mb-4">
+                    <button
+                        onClick={() => addEntry('experience')}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Another Experience
+                    </button>
+                </div>
             </section>
 
             {/* Projects Section */}
@@ -302,7 +311,16 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                             required
                         />
                     </div>
+
                 ))}
+                <div className="mb-4">
+                    <button
+                        onClick={() => addEntry('technicalSkills')}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Another Skill
+                    </button>
+                </div>
             </section>
 
             {/* Key Courses Taken Section */}
@@ -330,6 +348,15 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+
+<div className="mb-4">
+                    <button
+                        onClick={() => addEntry('courses')}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Another Course
+                    </button>
+                </div>
             </section>
 
             {/* Positions of Responsibility Section */}
@@ -374,6 +401,15 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+
+<div className="mb-4">
+                    <button
+                        onClick={() => addEntry('positions')}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Another Position
+                    </button>
+                </div>
             </section>
 
             {/* Achievements Section */}
@@ -410,6 +446,14 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+                <div className="mb-4">
+                    <button
+                        onClick={() => addEntry('achievements')}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                        Add Another Achievement
+                    </button>
+                </div>
             </section>
 
             {/* Submit Button */}
