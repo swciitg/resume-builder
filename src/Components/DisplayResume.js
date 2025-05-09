@@ -1,8 +1,9 @@
+import { ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import React, { useState } from 'react';
 
 const DisplayResume = ({ resumeData }) => {
-    const [copySuccess, setCopySuccess] = useState('');
-const latexCode = `
+    const [copySuccess, setCopySuccess] = useState(false);
+    const latexCode = `
 %-------------------------
 % Resume in LaTeX
 % Author: Custom Resume Builder
@@ -192,23 +193,41 @@ ${resumeData.achievements.map(achievement => `
 `;
     // Function to handle copy action
     const copyToClipboard = () => {
-       
+
 
         navigator.clipboard.writeText(latexCode).then(() => {
-            setCopySuccess('LaTeX code copied to clipboard!');
+            setCopySuccess(true);
+            setTimeout(() => setCopySuccess(false), 2000);
         }, (err) => {
-            setCopySuccess('Failed to copy: ', err);
+            setCopySuccess(false);
+            console.error(err);
         });
     };
 
     return (
-        <div>
+        <div className="container mx-auto p-4">
             <h1>Latex Code</h1>
+
+            <div className="sticky top-0 z-10 flex justify-end pt-4">
+                <button
+                    className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                    onClick={copyToClipboard}
+                >
+
+                    <ClipboardDocumentIcon className="w-4 h-4 text-primary_text hover:text-hover_accent" />
+                </button>
+                {copySuccess && (
+                    <div className="absolute left-1/2 -translate-x-1/2 px-3 py-1 text-sm 
+                    bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100 
+                    rounded shadow transition-opacity duration-300">
+                        Successfully Copied!
+                    </div>
+                )}
+            </div>
+
             <pre>{latexCode}</pre>
 
-            <button onClick={copyToClipboard}   className="bg-blue-500 text-white px-4 py-2 rounded btn-submit">Copy LaTeX Code</button>
-          
-            
+
         </div>
     );
 };
