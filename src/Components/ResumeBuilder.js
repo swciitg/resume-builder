@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
+    const [pdfFile, setPdf] = useState(null)
 
+    const getFile = async () => {
+        console.log('hey')
+        const response = await axios.get('http://localhost:2000/swc/backend/api/getPdf', {
+            responseType: 'blob'
+        })
+        const pdf = response.data;
+        console.log(pdfFile)
+        setPdf(pdf);
+    }
+    const viewThePDF = async () => {
+        if (!pdfFile) return;
+        const pdfViewUrl = URL.createObjectURL(pdfFile);
+        window.open(pdfViewUrl);
+    }
+    const downloadPdf = async () => {
+        if (!pdfFile) return;
 
+        const url = URL.createObjectURL(pdfFile);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'cv.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
     const validate = () => {
         let tempErrors = {};
@@ -212,7 +237,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                     </div>
                 ))}
 
-<div className="mb-4">
+                <div className="mb-4">
                     <button
                         onClick={() => addEntry('experience')}
                         className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -349,7 +374,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                     </div>
                 ))}
 
-<div className="mb-4">
+                <div className="mb-4">
                     <button
                         onClick={() => addEntry('courses')}
                         className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -402,7 +427,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                     </div>
                 ))}
 
-<div className="mb-4">
+                <div className="mb-4">
                     <button
                         onClick={() => addEntry('positions')}
                         className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -457,9 +482,17 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
             </section>
 
             {/* Submit Button */}
-            <button className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center " type="submit">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center " type="submit" onClick={getFile}>
                 Submit Resume
             </button>
+            {pdfFile &&
+                <>
+                    <button onClick={viewThePDF} className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center mx-3">
+                        view pdf
+                    </button>
+                    <button onClick={downloadPdf}>download</button>
+                </>
+            }
         </form>
     );
 };
