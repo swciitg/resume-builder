@@ -1,7 +1,7 @@
 import { EyeIcon, FolderArrowDownIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import logo from '../assets/iitg_logo_bg.png';
 
-export default function Navbar({ toogleDark, darkMode }) {
+export default function Navbar({ toogleDark, darkMode,setShowPreview }) {
 
   const ActionButtons = () => (
     <div >
@@ -12,6 +12,7 @@ export default function Navbar({ toogleDark, darkMode }) {
       </button>
 
       <button
+        onClick={setShowPreview}
         className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
       >
         <EyeIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />

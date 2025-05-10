@@ -1,15 +1,55 @@
-import React, { useState,useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import ResumeBuilder from './Components/ResumeBuilder'
-
+import ResumeBuilder from './Components/ResumeBuilder';
 import DisplayResume from './Components/DisplayResume.js';
 import Navbar from './Components/Navbar.js';
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 
 function App() {
-    
+
+    const entryTemplates = {
+    education: {
+        degree: '',
+        institute: '',
+        cgpa: '',
+        year: ''
+    },
+    experience: {
+        title: '',
+        designation: '',
+        timeline: '',
+        description: '',
+    },
+    projects: {
+        name: '',
+        type: '',
+        timeline: '',
+        githubLink: '',
+        description: '',
+    },
+    technicalSkills: {
+        category: '',
+        skills: '',
+    },
+    courses: {
+        category: '',
+        courseName: '',
+    },
+    positions: {
+        title: '',
+        organization: '',
+        timeline: '',
+        description: '',
+    },
+    achievements: {
+        title: '',
+        description: '',
+        year: '',
+    },
+};
+
+
     const [resumeData, setResumeData] = useState({
         personalInfo: {
             name: '',
@@ -20,58 +60,13 @@ function App() {
             githubProfile: '',
             linkedinProfile: '',
         },
-        education: [
-            {
-                degree: '',
-                institute: '',
-                cgpa: '',
-                year: '',
-            },
-        ],
-        experience: [
-            {
-                title: '',
-                designation: '',
-                timeline: '',
-                description: '',
-            },
-        ],
-        projects: [
-            {
-                name: '',
-                type: '',
-                timeline: '',
-                githubLink: '',
-                description: '',
-            },
-        ],
-        technicalSkills: [
-            {
-                category: '',
-                skills: '',
-            },
-        ],
-        courses: [
-            {
-                category: '',
-                courseName: '',
-            },
-        ],
-        positions: [
-            {
-                title: '',
-                organization: '',
-                timeline: '',
-                description: '',
-            },
-        ],
-        achievements: [
-            {
-                title: '',
-                description: '',
-                year: '',
-            },
-        ],
+        education: [{ ...entryTemplates.education }],
+        experience: [{ ...entryTemplates.experience }],
+        projects: [{ ...entryTemplates.projects }],
+        technicalSkills: [{ ...entryTemplates.technicalSkills }],
+        courses: [{ ...entryTemplates.courses }],
+        positions: [{ ...entryTemplates.positions }],
+        achievements: [{ ...entryTemplates.achievements }],
     });
 
     const [errors, setErrors] = useState({});
@@ -93,7 +88,7 @@ function App() {
         <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">
 
             <div class="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-                <Navbar toogleDark={()=>setDarkMode(!darkMode)} darkMode={darkMode} />
+                <Navbar toogleDark={() => setDarkMode(!darkMode)} darkMode={darkMode} setShowPreview={() => setShowPreview(!showPreview)}/>
             </div>
             <div className="flex mt-16 h-[calc(100vh-4rem)] transition-all duration-700 ease-in-out ">
                 {/* ResumeBuilder */}
@@ -103,21 +98,20 @@ function App() {
                 >
                     {/* Sliding button */}
                     <div className="sticky top-0 z-10 flex justify-end pt-4">
-                    <button
-                        className=" rounded  text-gray-800 dark:text-white "
-                        onClick={() => setShowPreview(!showPreview)}
-                    >
-                        {/* {showPreview ? "Hide Preview" : "Show Preview"} */}
-                        {/* <CodeBracketIcon className="w-5 h-5 mr-2" /> */}
-                        {showPreview ? (
-                            <ChevronRightIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />
-                        ) : (
-                            <ChevronLeftIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />
-                        )}
-                    </button></div>
+                        <button
+                            className=" rounded  text-gray-800 dark:text-white "
+                            onClick={() => setShowPreview(!showPreview)}
+                        >
+                            {showPreview ? (
+                                <ChevronRightIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />
+                            ) : (
+                                <ChevronLeftIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />
+                            )}
+                        </button></div>
 
 
                     <ResumeBuilder
+                        templates={entryTemplates}
                         resumeData={resumeData}
                         setResumeData={setResumeData}
                         errors={errors}
