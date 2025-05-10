@@ -2,32 +2,8 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
-    const [pdfFile, setPdf] = useState(null)
 
-    const getFile = async () => {
-        console.log('hey')
-        const response = await axios.get('http://localhost:2000/swc/backend/api/getPdf', {
-            responseType: 'blob'
-        })
-        const pdf = response.data;
-        console.log(pdfFile)
-        setPdf(pdf);
-    }
-    const viewThePDF = async () => {
-        if (!pdfFile) return;
-        const pdfViewUrl = URL.createObjectURL(pdfFile);
-        window.open(pdfViewUrl);
-    }
-    const downloadPdf = async () => {
-        if (!pdfFile) return;
 
-        const url = URL.createObjectURL(pdfFile);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'cv.pdf';
-        a.click();
-        URL.revokeObjectURL(url);
-    }
 
     const validate = () => {
         let tempErrors = {};
@@ -305,6 +281,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
                         />
                     </div>
                 ))}
+
 
             </section>
 
