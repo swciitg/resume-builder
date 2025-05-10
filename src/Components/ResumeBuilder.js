@@ -1,9 +1,7 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
-const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
-
-
+const ResumeBuilder = ({ templates,resumeData, setResumeData, errors, setErrors }) => {
 
     const validate = () => {
         let tempErrors = {};
@@ -35,13 +33,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
 
     const addEntry = (section) => {
         const updatedData = { ...resumeData };
-        updatedData[section].push({
-            name: '',
-            type: '',
-            timeline: '',
-            githubLink: '',
-            description: '',
-        });
+        updatedData[section].push(templates[section]);
         setResumeData(updatedData);
     };
 
@@ -155,7 +147,15 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
 
             {/* Education Section */}
             <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-4">Education</h2>
+                <div className="mb-4 flex items-center justify-between">
+                    <h2 className="text-xl font-semibold mb-4">Education</h2>
+                    <button
+                        onClick={() => addEntry('education')}
+                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                    >
+                        <PlusIcon className="w-6 h-6" />
+                    </button>
+                </div>
                 {resumeData.education.map((education, index) => (
                     <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
