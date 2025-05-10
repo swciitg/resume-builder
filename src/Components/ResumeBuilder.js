@@ -2,9 +2,6 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import React, { useState } from 'react';
 
 const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
-
-
-
     const validate = () => {
         let tempErrors = {};
         // Validate personal information
