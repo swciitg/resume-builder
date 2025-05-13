@@ -1,7 +1,8 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import axios from 'axios';
 
-const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
+const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors , latexCode }) => {
 
 
 
@@ -46,13 +47,38 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validate()) {
-            // Proceed with form submission, e.g., save data
-            console.log('Form Submitted:', resumeData);
+        if (!validate()) {
+            console.error('Validation failed:', errors);
+            return;
+        }
+        console.log('Form Submitted:', resumeData);
+    
+        try {
+            const response = await axios.post('http://localhost:5000/compile', {
+                latexCode: latexCode  
+            }, {
+                responseType: 'blob',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'resume.pdf');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
         }
     };
+    
 
 
 
