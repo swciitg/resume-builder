@@ -152,7 +152,16 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors }) => {
 
             {/* Education Section */}
             <section className="mb-6">
-                <h2 className="text-xl font-semibold mb-4">Education</h2>
+                <div className="mb-4 flex items-center justify-between">
+
+                    <h2 className="text-xl font-semibold mb-4">Education</h2>
+                    <button
+                        onClick={() => addEntry('education')}
+                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                    >
+                        <PlusIcon className="w-6 h-6" />
+                    </button>
+                </div>
                 {resumeData.education.map((education, index) => (
                     <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input

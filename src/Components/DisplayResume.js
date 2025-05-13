@@ -1,8 +1,21 @@
 import { ClipboardDocumentIcon } from '@heroicons/react/24/outline';
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import Resume from './Resume';
+// import 'latex.js/dist/latex.css';
 const DisplayResume = ({ resumeData }) => {
     const [copySuccess, setCopySuccess] = useState(false);
+    const [resumeView, setResumeView] = useState(false);
+
+
+    const toggleResumeView = () => {
+        setResumeView(!resumeView);
+    }
+
+    useEffect(()=>{
+        console.log(resumeData)
+    },[resumeData])
+
+
     const latexCode = `
 %-------------------------
 % Resume in LaTeX
@@ -209,6 +222,7 @@ ${resumeData.achievements.map(achievement => `
             <h1>Latex Code</h1>
 
             <div className="sticky top-0 z-10 flex justify-end pt-4">
+                <button onClick={toggleResumeView} className="mx-2 px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"> {!resumeView ? 'view resume' : 'view latex code'} </button>
                 <button
                     className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
                     onClick={copyToClipboard}
@@ -224,10 +238,11 @@ ${resumeData.achievements.map(achievement => `
                     </div>
                 )}
             </div>
-
-            <pre>{latexCode}</pre>
-
-
+            {resumeView ? (
+                <Resume resumeData={resumeData}></Resume>
+            ) : (
+                <pre>{latexCode}</pre>
+            )}
         </div>
     );
 };

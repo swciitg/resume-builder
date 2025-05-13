@@ -29,21 +29,21 @@ function App() {
             },
         ],
         experience: [
-            {
-                title: '',
-                designation: '',
-                timeline: '',
-                description: '',
-            },
+            // {
+            //     title: '',
+            //     designation: '',
+            //     timeline: '',
+            //     description: '',
+            // },
         ],
         projects: [
-            {
-                name: '',
-                type: '',
-                timeline: '',
-                githubLink: '',
-                description: '',
-            },
+            // {
+            //     name: '',
+            //     type: '',
+            //     timeline: '',
+            //     githubLink: '',
+            //     description: '',
+            // },
         ],
         technicalSkills: [
             {
@@ -52,25 +52,25 @@ function App() {
             },
         ],
         courses: [
-            {
-                category: '',
-                courseName: '',
-            },
+            // {
+            //     category: '',
+            //     courseName: '',
+            // },
         ],
         positions: [
-            {
-                title: '',
-                organization: '',
-                timeline: '',
-                description: '',
-            },
+            // {
+            //     title: '',
+            //     organization: '',
+            //     timeline: '',
+            //     description: '',
+            // },
         ],
         achievements: [
-            {
-                title: '',
-                description: '',
-                year: '',
-            },
+            // {
+            //     title: '',
+            //     description: '',
+            //     year: '',
+            // },
         ],
     });
 
