@@ -74,6 +74,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
             link.click();
             link.remove();
             window.URL.revokeObjectURL(url);
+            setIsSubmitted(false);
         } catch (error) {
             console.error('Error generating PDF:', error);
             setIsSubmitted(false); 
