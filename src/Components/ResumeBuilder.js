@@ -1,9 +1,12 @@
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import  { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
-    
+    useEffect(() => {
+        console.log(resumeData)
+    }, [resumeData])
+
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const validate = () => {
@@ -16,6 +19,9 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0; // Return true if no errors
     };
+    useEffect(()=>{
+        console.log(resumeData);
+    },[resumeData])
 
     const handleInputChange = (section, index, field, value) => {
         const updatedData = { ...resumeData };
@@ -46,14 +52,24 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
         setResumeData(updatedData);
     };
 
+    const addWorkDone = (section, index) => {
+        const updatedData = { ...resumeData };
+        if (!updatedData[section][index].workDone) {
+            updatedData[section][index].workDone = [];
+        }
+        updatedData[section][index].workDone.push('');
+        setResumeData(updatedData);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // return
         if (!validate()) {
             console.error('Validation failed:', errors);
             return;
         }
         console.log('Form Submitted:', resumeData);
-        setIsSubmitted(true); 
+        setIsSubmitted(true);
 
         try {
             const response = await axios.post('http://localhost:5000/compile', {
@@ -77,12 +93,12 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
             setIsSubmitted(false);
         } catch (error) {
             console.error('Error generating PDF:', error);
-            setIsSubmitted(false); 
+            setIsSubmitted(false);
         }
     };
 
     return (
-        <form className="container mx-auto p-4" onSubmit={handleSubmit}>
+        <form className="container mx-auto p-4" >
             {/* Personal Information Section */}
             <section className="mb-6">
                 <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
@@ -255,7 +271,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                                 disabled={isSubmitted}
                             />
                             <input
-                                type="number"
+                                type="text"
                                 placeholder="Year"
                                 className="input-field bg-white dark:bg-gray-700 
                                 text-gray-900 dark:text-white 
@@ -289,192 +305,212 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     <button
                         type="button"
                         onClick={() => addEntry('experience')}
-                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 
-                        text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 
-                        transition disabled:bg-gray-400 disabled:text-gray-600 
-                        disabled:cursor-not-allowed disabled:opacity-70"
-                        disabled={isSubmitted}
+                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
                     >
                         <PlusIcon className="w-6 h-6" />
                     </button>
                 </div>
+
                 {resumeData.experience.map((experience, index) => (
-                    <div key={index} className="relative pb-7 p-2 border rounded-md shadow">
-                        <div className="mb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input
-                                type="text"
-                                placeholder="Experience Title"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={experience.title}
-                                onChange={(e) =>
-                                    handleInputChange('experience', index, 'title', e.target.value)
-                                }
+                    <div key={index} className="mb-1 grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                        <input
+                            type="text"
+                            placeholder="Company"
+                            className="input-field bg-white dark:bg-gray-700 
+             text-gray-900 dark:text-white 
+             border border-gray-300 dark:border-gray-600 
+             placeholder-gray-500 dark:placeholder-gray-400
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={experience.Company}
+                            onChange={(e) =>
+                                handleInputChange('experience', index, 'Company', e.target.value)
+                            }
+                        />
+                        <input
+                            type="text"
+                            placeholder="location"
+                            className="input-field bg-white dark:bg-gray-700 
+             text-gray-900 dark:text-white 
+             border border-gray-300 dark:border-gray-600 
+             placeholder-gray-500 dark:placeholder-gray-400
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={experience.location}
+                            onChange={(e) =>
+                                handleInputChange('experience', index, 'location', e.target.value)
+                            }
+                        />
+                        <input
+                            type="text"
+                            placeholder="role"
+                            className="input-field bg-white dark:bg-gray-700 
+             text-gray-900 dark:text-white 
+             border border-gray-300 dark:border-gray-600 
+             placeholder-gray-500 dark:placeholder-gray-400
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={experience.role}
+                            onChange={(e) =>
+                                handleInputChange('experience', index, 'role', e.target.value)
+                            }
+                        />
+                        <input
+                            type="text"
+                            placeholder="Timeline"
+                            className="input-field bg-white dark:bg-gray-700 
+             text-gray-900 dark:text-white 
+             border border-gray-300 dark:border-gray-600 
+             placeholder-gray-500 dark:placeholder-gray-400
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={experience.timeline}
+                            onChange={(e) =>
+                                handleInputChange('experience', index, 'timeline', e.target.value)
+                            }
+                        />
+
+                        <div className="col-span-2">
+                            <div className="font-semibold mb-2">Work Done:</div>
+                            {experience.workDone && experience.workDone.map((task, taskIndex) => (
+                                <div key={taskIndex} className="flex items-center space-x-2 mb-2">
+                                    <input
+                                        type="text"
+                                        placeholder={`Task ${taskIndex + 1}`}
+                                        className="input-field w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={task}
+                                        onChange={(e) => {
+                                            const updatedData = { ...resumeData };
+                                            updatedData.experience[index].workDone[taskIndex] = e.target.value;
+                                            setResumeData(updatedData);
+                                        }}
+                                    />
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            const updatedData = { ...resumeData };
+                                            updatedData.experience[index].workDone.splice(taskIndex, 1);
+                                            setResumeData(updatedData);
+                                        }}
+                                        className="text-red-500 hover:text-red-700 text-lg"
+                                        title="Delete Task"
+                                    >
+                                        ❌
+                                    </button>
+                                </div>
+
+                            ))}
+                            <button
+                                type='button'
+                                onClick={() => addWorkDone('experience', index)}
+                                className="mt-1 px-4 py-1 text-sm rounded bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-white hover:bg-blue-200 dark:hover:bg-blue-700 transition"
+                            >
+                                Add Work Done
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => deleteEntry('experience', index)}
+                                className="absolute right-4 disabled:cursor-not-allowed disabled:opacity-70"
                                 disabled={isSubmitted}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Designation"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={experience.designation}
-                                onChange={(e) =>
-                                    handleInputChange('experience', index, 'designation', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Timeline"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={experience.timeline}
-                                onChange={(e) =>
-                                    handleInputChange('experience', index, 'timeline', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
-                            <textarea
-                                placeholder="Description"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={experience.description}
-                                onChange={(e) =>
-                                    handleInputChange('experience', index, 'description', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
+                            >
+                                <TrashIcon className="w-6 h-6 text-red-500 hover:text-red-700 disabled:text-gray-600" />
+                            </button>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => deleteEntry('experience', index)}
-                            className="absolute right-4 disabled:cursor-not-allowed disabled:opacity-70"
-                            disabled={isSubmitted}
-                        >
-                            <TrashIcon className="w-6 h-6 text-red-500 hover:text-red-700 disabled:text-gray-600" />
-                        </button>
                     </div>
                 ))}
             </section>
+
 
             {/* Projects Section */}
             <section className="mb-6">
                 <div className="mb-4 flex items-center justify-between">
                     <h2 className="text-xl font-semibold mb-4">Projects</h2>
                     <button
-                        type="button"   
+                        type="button"
                         onClick={() => addEntry('projects')}
-                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 
-                        text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 
-                        transition disabled:bg-gray-400 disabled:text-gray-600 
-                        disabled:cursor-not-allowed disabled:opacity-70"
-                        disabled={isSubmitted}
+                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
                     >
                         <PlusIcon className="w-6 h-6" />
                     </button>
                 </div>
+
                 {resumeData.projects.map((project, index) => (
-                    <div key={index} className="relative pb-7 p-2 border rounded-md shadow">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input
-                                type="text"
-                                placeholder="Project Name"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={project.name}
-                                onChange={(e) =>
-                                    handleInputChange('projects', index, 'name', e.target.value)
-                                }
+                    <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input
+                            type="text"
+                            placeholder="Project Name"
+                            className="input-field bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={project.name}
+                            onChange={(e) => handleInputChange('projects', index, 'name', e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Project Type"
+                            className="input-field bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={project.type}
+                            onChange={(e) => handleInputChange('projects', index, 'type', e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Timeline"
+                            className="input-field bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={project.timeline}
+                            onChange={(e) => handleInputChange('projects', index, 'timeline', e.target.value)}
+                        />
+                        <input
+                            type="url"
+                            placeholder="GitHub Link"
+                            className="input-field bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={project.githubLink}
+                            onChange={(e) => handleInputChange('projects', index, 'githubLink', e.target.value)}
+                        />
+
+                        {/* Work Done Section */}
+                        <div className="col-span-2">
+                            <div className="font-semibold mb-2">Work Done:</div>
+                            {project.workDone && project.workDone.map((task, taskIndex) => (
+                                <div key={taskIndex} className="flex items-center space-x-2 mb-2">
+                                    <input
+                                        type="text"
+                                        placeholder={`Task ${taskIndex + 1}`}
+                                        className="input-field w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={task}
+                                        onChange={(e) => {
+                                            const updatedData = { ...resumeData };
+                                            updatedData.projects[index].workDone[taskIndex] = e.target.value;
+                                            setResumeData(updatedData);
+                                        }}
+                                    />
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            const updatedData = { ...resumeData };
+                                            updatedData.projects[index].workDone.splice(taskIndex, 1);
+                                            setResumeData(updatedData);
+                                        }}
+                                        className="text-red-500 hover:text-red-700 text-lg"
+                                        title="Delete Task"
+                                    >
+                                        ❌
+                                    </button>
+                                </div>
+                            ))}
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    const updatedData = { ...resumeData };
+                                    updatedData.projects[index].workDone.push('');
+                                    setResumeData(updatedData);
+                                }}
+                                className="mt-1 px-4 py-1 text-sm rounded bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-white hover:bg-blue-200 dark:hover:bg-blue-700 transition"
+                            >
+                                Add Work Done
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => deleteEntry('projects', index)}
+                                className="absolute right-4 disabled:cursor-not-allowed disabled:opacity-70"
                                 disabled={isSubmitted}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Project Type"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={project.type}
-                                onChange={(e) =>
-                                    handleInputChange('projects', index, 'type', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Timeline"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={project.timeline}
-                                onChange={(e) =>
-                                    handleInputChange('projects', index, 'timeline', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
-                            <input
-                                type="url"
-                                placeholder="GitHub Link"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={project.githubLink}
-                                onChange={(e) =>
-                                    handleInputChange('projects', index, 'githubLink', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
-                            <textarea
-                                placeholder="Project Description"
-                                className="input-field bg-white dark:bg-gray-700 
-                                text-gray-900 dark:text-white 
-                                border border-gray-300 dark:border-gray-600 
-                                placeholder-gray-500 dark:placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={project.description}
-                                onChange={(e) =>
-                                    handleInputChange('projects', index, 'description', e.target.value)
-                                }
-                                disabled={isSubmitted}
-                            />
+                            >
+                                <TrashIcon className="w-6 h-6 text-red-500 hover:text-red-700 disabled:text-gray-600" />
+                            </button>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => deleteEntry('projects', index)}
-                            className="absolute right-4 disabled:cursor-not-allowed disabled:opacity-70"
-                            disabled={isSubmitted}
-                        >
-                            <TrashIcon className="w-6 h-6 text-red-500 hover:text-red-700 disabled:text-gray-600" />
-                        </button>
                     </div>
                 ))}
             </section>
@@ -669,24 +705,178 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                                 }
                                 disabled={isSubmitted}
                             />
-                            <textarea
-                                placeholder="Description"
+                            {/* Description Section */}
+                            <div className="col-span-2">
+                                <div className="font-semibold mb-2">Description:</div>
+                                {position.description && position.description.map((desc, descIndex) => (
+                                    <div key={descIndex} className="flex items-center space-x-2 mb-2">
+                                        <input
+                                            type="text"
+                                            placeholder={`Description ${descIndex + 1}`}
+                                            className="input-field w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            value={desc}
+                                            onChange={(e) => {
+                                                const updatedData = { ...resumeData };
+                                                updatedData.positions[index].description[descIndex] = e.target.value;
+                                                setResumeData(updatedData);
+                                            }}
+                                            disabled={isSubmitted}
+                                        />
+                                        <button
+                                            type='button'
+                                            onClick={() => {
+                                                const updatedData = { ...resumeData };
+                                                updatedData.positions[index].description.splice(descIndex, 1);
+                                                setResumeData(updatedData);
+                                            }}
+                                            className="text-red-500 hover:text-red-700 text-lg"
+                                            title="Delete Description"
+                                            disabled={isSubmitted}
+                                        >
+                                            ❌
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type='button'
+                                    onClick={() => {
+                                        const updatedData = { ...resumeData };
+                                        updatedData.positions[index].description.push('');
+                                        setResumeData(updatedData);
+                                    }}
+                                    className="mt-1 px-4 py-1 text-sm rounded bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-white hover:bg-blue-200 dark:hover:bg-blue-700 transition"
+                                    disabled={isSubmitted}
+                                >
+                                    Add Description
+                                </button>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => deleteEntry('positions', index)}
+                            className="absolute right-4 disabled:cursor-not-allowed disabled:opacity-70"
+                            disabled={isSubmitted}
+                        >
+                            <TrashIcon className="w-6 h-6 text-red-500 hover:text-red-700 disabled:text-gray-600" />
+                        </button>
+                    </div>
+                ))}
+            </section>
+
+
+            {/* extra curriculars */}
+            <section className="mb-6">
+                <div className="mb-4 flex items-center justify-between">
+                    <h2 className="text-xl font-semibold mb-4">Extra-curriculars</h2>
+                    <button
+                        type="button"
+                        onClick={() => addEntry('extracaurriculars')}
+                        className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 
+                        text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 
+                        transition disabled:bg-gray-400 disabled:text-gray-600 
+                        disabled:cursor-not-allowed disabled:opacity-70"
+                        disabled={isSubmitted}
+                    >
+                        <PlusIcon className="w-6 h-6" />
+                    </button>
+                </div>
+                {resumeData.extracaurriculars.map((position, index) => (
+                    <div key={index} className="relative pb-7 p-2 border rounded-md shadow">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input
+                                type="text"
+                                placeholder="title"
                                 className="input-field bg-white dark:bg-gray-700 
                                 text-gray-900 dark:text-white 
                                 border border-gray-300 dark:border-gray-600 
                                 placeholder-gray-500 dark:placeholder-gray-400
                                 focus:outline-none focus:ring-2 focus:ring-blue-500
                                 disabled:opacity-50 disabled:cursor-not-allowed"
-                                value={position.description}
+                                value={position.title}
                                 onChange={(e) =>
-                                    handleInputChange('positions', index, 'description', e.target.value)
+                                    handleInputChange('extracaurriculars', index, 'title', e.target.value)
                                 }
                                 disabled={isSubmitted}
                             />
+                            <input
+                                type="text"
+                                placeholder="Organization"
+                                className="input-field bg-white dark:bg-gray-700 
+                                text-gray-900 dark:text-white 
+                                border border-gray-300 dark:border-gray-600 
+                                placeholder-gray-500 dark:placeholder-gray-400
+                                focus:outline-none focus:ring-2 focus:ring-blue-500
+                                disabled:opacity-50 disabled:cursor-not-allowed"
+                                value={position.organization}
+                                onChange={(e) =>
+                                    handleInputChange('extracaurriculars', index, 'organization', e.target.value)
+                                }
+                                disabled={isSubmitted}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Timeline"
+                                className="input-field bg-white dark:bg-gray-700 
+                                text-gray-900 dark:text-white 
+                                border border-gray-300 dark:border-gray-600 
+                                placeholder-gray-500 dark:placeholder-gray-400
+                                focus:outline-none focus:ring-2 focus:ring-blue-500
+                                disabled:opacity-50 disabled:cursor-not-allowed"
+                                value={position.timeline}
+                                onChange={(e) =>
+                                    handleInputChange('extracaurriculars', index, 'timeline', e.target.value)
+                                }
+                                disabled={isSubmitted}
+                            />
+                            {/* Description Section */}
+                            <div className="col-span-2">
+                                <div className="font-semibold mb-2">Description:</div>
+                                {position.description && position.description.map((desc, descIndex) => (
+                                    <div key={descIndex} className="flex items-center space-x-2 mb-2">
+                                        <input
+                                            type="text"
+                                            placeholder={`Description ${descIndex + 1}`}
+                                            className="input-field w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            value={desc}
+                                            onChange={(e) => {
+                                                const updatedData = { ...resumeData };
+                                                updatedData.extracaurriculars[index].description[descIndex] = e.target.value;
+                                                setResumeData(updatedData);
+                                            }}
+                                            disabled={isSubmitted}
+                                        />
+                                        <button
+                                            type='button'
+                                            onClick={() => {
+                                                const updatedData = { ...resumeData };
+                                                updatedData.extracaurriculars[index].description.splice(descIndex, 1);
+                                                setResumeData(updatedData);
+                                            }}
+                                            className="text-red-500 hover:text-red-700 text-lg"
+                                            title="Delete Description"
+                                            disabled={isSubmitted}
+                                        >
+                                            ❌
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type='button'
+                                    onClick={() => {
+                                        const updatedData = { ...resumeData };
+                                        updatedData.extracaurriculars[index].description.push('');
+                                        setResumeData(updatedData);
+                                    }}
+                                    className="mt-1 px-4 py-1 text-sm rounded bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-white hover:bg-blue-200 dark:hover:bg-blue-700 transition"
+                                    disabled={isSubmitted}
+                                >
+                                    Add Description
+                                </button>
+                            </div>
                         </div>
                         <button
                             type="button"
-                            onClick={() => deleteEntry('positions', index)}
+                            onClick={() => deleteEntry('extracaurriculars', index)}
                             className="absolute right-4 disabled:cursor-not-allowed disabled:opacity-70"
                             disabled={isSubmitted}
                         >
@@ -701,7 +891,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                 <div className="mb-4 flex items-center justify-between">
                     <h2 className="text-xl font-semibold mb-4">Achievements</h2>
                     <button
-                        type="button"   
+                        type="button"
                         onClick={() => addEntry('achievements')}
                         className="mx-2 px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 
                         text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 
@@ -776,12 +966,13 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
             {/* Submit Button */}
             <div className="flex justify-end">
                 <button
+                    onClick={handleSubmit}
                     type="submit"
                     className="bg-blue-500 text-white px-4 py-2 rounded btn-submit items-center 
                     hover:bg-blue-600 transition 
                     disabled:bg-gray-400 disabled:text-gray-600 
                     disabled:cursor-not-allowed disabled:opacity-70"
-                    
+
                     disabled={isSubmitted}
                 >
                     Generate Resume
