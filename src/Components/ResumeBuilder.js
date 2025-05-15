@@ -1,12 +1,13 @@
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useLatex } from './LatexContext';
 
 const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
     useEffect(() => {
         console.log(resumeData)
     }, [resumeData])
-
+    const {latexCodeE, setLatexCode} = useLatex();
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const validate = () => {
@@ -19,10 +20,13 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0; // Return true if no errors
     };
-    useEffect(()=>{
-        console.log(resumeData);
-    },[resumeData])
+    // useEffect(()=>{
+    //     console.log(resumeData);
+    // },[resumeData])
 
+    useEffect(()=>{
+        setLatexCode(latexCode);
+    },[latexCode])
     const handleInputChange = (section, index, field, value) => {
         const updatedData = { ...resumeData };
         updatedData[section][index][field] = value;
