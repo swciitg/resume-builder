@@ -127,9 +127,9 @@ function App() {
                             {/* {showPreview ? "Hide Preview" : "Show Preview"} */}
                             {/* <CodeBracketIcon className="w-5 h-5 mr-2" /> */}
                             {showPreview ? (
-                                <ChevronRightIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />
+                                <ChevronRightIcon className="w-8 h-8 text-primary_text hover:text-hover_accent" />
                             ) : (
-                                <ChevronLeftIcon className="w-6 h-6 text-primary_text hover:text-hover_accent" />
+                                <ChevronLeftIcon className="w-8 h-8 text-primary_text hover:text-hover_accent" />
                             )}
                         </button></div>
 
