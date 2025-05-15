@@ -5,10 +5,11 @@ import DisplayResume from './Components/DisplayResume.js';
 import Navbar from './Components/Navbar.js';
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import LatexCode from './Components/LatexCode.js';
+import { useLatex } from './Components/LatexContext.js';
 
 function App() {
 
-
+    const {latexCodeE, setLatexCode} = useLatex();
     const entryTemplates = {
         education: {
             degree: '',
