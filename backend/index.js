@@ -43,7 +43,6 @@ function(iss, sub, profile, accessToken, refreshToken, done) {
   if (!profile.oid) {
     return done(new Error("No OID found"), null);
   }
-
   return done(null, profile);
 }
 ));
