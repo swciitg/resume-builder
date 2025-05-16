@@ -6,8 +6,38 @@ import Navbar from './Components/Navbar.js';
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import LatexCode from './Components/LatexCode.js';
 import { useLatex } from './Components/LatexContext.js';
+import axios from 'axios';
 
 function App() {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/user`, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                console.log(response.data);
+                if (response.data.authenticated) {
+                    setUser(response.data.user);
+                } else {
+                    window.location.href = 'http://localhost:5000/auth/azuread';
+                }
+            } catch (error) {
+                window.location.href = 'http://localhost:5000/auth/azuread';
+            }finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    
 
     const {latexCodeE, setLatexCode} = useLatex();
     const entryTemplates = {
@@ -58,7 +88,6 @@ function App() {
         },
     };
 
-
     const [resumeData, setResumeData] = useState({
         personalInfo: {
             name: '',
@@ -104,7 +133,7 @@ function App() {
         }
     }, [darkMode]);
 
-
+    if (loading) return <div>Loading...</div>; 
 
     return (
         <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">
