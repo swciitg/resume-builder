@@ -116,7 +116,7 @@ useEffect(() => {
                 setProgressLoading(true);
                 try {
                     const response = await axios.put(
-                        'http://localhost:5000/saveprogress',
+                        `${process.env.REACT_APP_SERVER_URL}/saveprogress`,
                         { resumeData },
                         {
                             withCredentials: true,
@@ -147,7 +147,7 @@ useEffect(() => {
         setProgressLoading(true);
         try {
             const response = await axios.put(
-                'http://localhost:5000/saveprogress',
+                `${process.env.REACT_APP_SERVER_URL}/saveprogress`,
                 { resumeData },
                 {
                     withCredentials: true, 
@@ -178,7 +178,7 @@ useEffect(() => {
         setIsSubmitted(true);
 
         try {
-            const response = await axios.post('http://localhost:5000/compile', {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/compile`, {
                 latexCode: latexCode
             }, {
                 responseType: 'blob',

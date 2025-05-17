@@ -16,7 +16,7 @@ const port = 5000;
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: `${process.env.REACT_APP_CLIENT_URL}`,
   methods: ['GET', 'POST' , 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -39,7 +39,7 @@ passport.use(new OIDCStrategy({
   clientSecret: process.env.AZURE_CLIENT_SECRET,
   responseType: 'code',
   responseMode: 'query',
-  redirectUrl: 'http://localhost:5000/auth/azuread/callback',
+  redirectUrl: `${process.env.REDIRECT_URI}`,
   allowHttpForRedirectUrl: true,
   scope: ['profile', 'email', 'openid'],
   passReqToCallback: false
@@ -87,7 +87,7 @@ app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', { failur
 app.get('/auth/azuread/callback',
   passport.authenticate('azuread-openidconnect', {
     failureRedirect: '/',
-    successRedirect: 'http://localhost:3000',
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}`,
   })
 );
 

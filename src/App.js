@@ -15,7 +15,7 @@ function App() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/user`, {
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user`, {
                     withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
@@ -25,10 +25,10 @@ function App() {
                 if (response.data.authenticated) {
                     setUser(response.data.user);
                 } else {
-                    window.location.href = 'http://localhost:5000/auth/azuread';
+                    window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
                 }
             } catch (error) {
-                window.location.href = 'http://localhost:5000/auth/azuread';
+                window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
             }finally {
                 setLoading(false);
             }
