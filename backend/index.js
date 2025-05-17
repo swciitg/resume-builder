@@ -108,6 +108,7 @@ app.get('/api/user', async (req, res) => {
 });
 app.use("/saveprogress",userRoute);
 app.post('/compile', async (req, res) => {
+  console.log(req.body);
   try {
     const latexCode = req.body.latexCode;
     const fileName = 'resume';

@@ -44,17 +44,40 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
         });
     };
 
+    // const addEntry = (section) => {
+    //     const updatedData = { ...resumeData };
+    //     updatedData[section].push(templates[section]);
+    //     setResumeData(updatedData);
+    // };
+
+    // const deleteEntry = (section, index) => {
+    //     const updatedData = { ...resumeData };
+    //     updatedData[section] = [...updatedData[section]];
+    //     updatedData[section].splice(index, 1);
+    //     setResumeData(updatedData);
+    // };
     const addEntry = (section) => {
-        const updatedData = { ...resumeData };
-        updatedData[section].push(templates[section]);
-        setResumeData(updatedData);
+        if (!templates || !templates[section]) {
+            return;
+        }
+        setResumeData((prevData) => {
+            const updatedSection = [...(prevData[section] || []), templates[section]];
+            return {
+                ...prevData,
+                [section]: updatedSection,
+            };
+        });
     };
 
     const deleteEntry = (section, index) => {
-        const updatedData = { ...resumeData };
-        updatedData[section] = [...updatedData[section]];
-        updatedData[section].splice(index, 1);
-        setResumeData(updatedData);
+        setResumeData((prevData) => {
+            const updatedSection = [...(prevData[section] || [])];
+            updatedSection.splice(index, 1);
+            return {
+                ...prevData,
+                [section]: updatedSection,
+            };
+        });
     };
 
     const addWorkDone = (section, index) => {
