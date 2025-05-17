@@ -1,8 +1,9 @@
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useLatex } from './LatexContext';
 import '../styles/resumeBuilder.css';
+import isEqual from 'lodash.isequal';
 
 const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
 
@@ -65,6 +66,45 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
         setResumeData(updatedData);
     };
 
+const prevDataRef = useRef(resumeData);
+
+useEffect(() => {
+    const handler = setTimeout(() => {
+        if (!isEqual(prevDataRef.current, resumeData)) {
+            // Resume data has changed
+            const autoSave = async () => {
+                if (!user) return;
+
+                setProgressLoading(true);
+                try {
+                    const response = await axios.put(
+                        'http://localhost:5000/saveprogress',
+                        { resumeData },
+                        {
+                            withCredentials: true,
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    console.log('Auto-saved:', response.data);
+                    setUser(response.data.user);
+                    prevDataRef.current = resumeData; // Update previous after saving
+                } catch (error) {
+                    console.error('Auto-save error:', error);
+                } finally {
+                    setProgressLoading(false);
+                }
+            };
+
+            autoSave();
+        }
+    }, 2000); // debounce time: 2s
+
+    return () => clearTimeout(handler); // clear timeout on cleanup
+}, [resumeData]);
+
+
     const handelProgress = async () => {
         setProgressLoading(true);
         try {
@@ -86,6 +126,8 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
             setProgressLoading(false);
         }
     };
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
