@@ -77,6 +77,7 @@ function App() {
     const [errors, setErrors] = useState({});
     const [showPreview, setShowPreview] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+    const [latecCode, setLatexCode] = useState()
 
     const latexCode = `
 %-------------------------

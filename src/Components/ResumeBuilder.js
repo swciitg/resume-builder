@@ -37,35 +37,35 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
 
 
 
-    const addEntry = (section) => {
-        const updatedData = { ...resumeData };
-        if (section === 'experience') {
-            updatedData[section].push({
-                Company: '',
-                location: '',
-                role: '',
-                timeline: '',
-                workDone: [],
-            });
-        } else if (section === 'projects') {
-            updatedData[section].push({
-                name: '',
-                type: '',
-                timeline: '',
-                githubLink: '',
-                workDone: [],
-            });
-        } else {
-            updatedData[section].push({
-                name: '',
-                type: '',
-                timeline: '',
-                githubLink: '',
-                description: '',
-            });
-        }
-        setResumeData(updatedData);
-    };
+    // const addEntry = (section) => {
+    //     const updatedData = { ...resumeData };
+    //     if (section === 'experience') {
+    //         updatedData[section].push({
+    //             Company: '',
+    //             location: '',
+    //             role: '',
+    //             timeline: '',
+    //             workDone: [],
+    //         });
+    //     } else if (section === 'projects') {
+    //         updatedData[section].push({
+    //             name: '',
+    //             type: '',
+    //             timeline: '',
+    //             githubLink: '',
+    //             workDone: [],
+    //         });
+    //     } else {
+    //         updatedData[section].push({
+    //             name: '',
+    //             type: '',
+    //             timeline: '',
+    //             githubLink: '',
+    //             description: '',
+    //         });
+    //     }
+    //     setResumeData(updatedData);
+    // };
     const addWorkDone = (section, index) => {
         const updatedData = { ...resumeData };
         if (!updatedData[section][index].workDone) {
@@ -74,9 +74,6 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
         updatedData[section][index].workDone.push('');
         setResumeData(updatedData);
     };
-
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -463,40 +460,8 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                                 Add Work Done
                             </button>
                         </div>
-
-
-                        {/* <div className='w-full'>WORKS DONE:</div> */}
-                        {/* <input
-                            type="text"
-                            placeholder="workDone"
-                            className="input-field bg-white dark:bg-gray-700 
-             text-gray-900 dark:text-white 
-             border border-gray-300 dark:border-gray-600 
-             placeholder-gray-500 dark:placeholder-gray-400
-             focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={experience.workDone}
-                            onChange={(e) =>
-                                handleInputChange('experience', index, 'workDone', e.target.value)
-                            }
-                        /> */}
-
-                        {/* <div> <button>ADD</button></div> */}
-                        {/* <textarea
-                            placeholder="Description"
-                            className="input-field bg-white dark:bg-gray-700 
-             text-gray-900 dark:text-white 
-             border border-gray-300 dark:border-gray-600 
-             placeholder-gray-500 dark:placeholder-gray-400
-             focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={experience.description}
-                            onChange={(e) =>
-                                handleInputChange('experience', index, 'description', e.target.value)
-                            }
-                        /> */}
                     </div>
                 ))}
-
-
             </section>
 
             {/* Projects Section */}
