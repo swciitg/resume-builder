@@ -213,7 +213,7 @@ useEffect(() => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Roll Number</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Roll Number*</label>
                         <input
                             type="text"
                             placeholder="University roll number"
@@ -225,7 +225,7 @@ useEffect(() => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Course & Branch</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Course & Branch*</label>
                         <input
                             type="text"
                             placeholder="e.g. B.Tech Computer Science"
@@ -249,20 +249,33 @@ useEffect(() => {
                         />
                         {errors.contactNumber && <span className="text-sm text-red-600 mt-1">{errors.contactNumber}</span>}
                     </div>
-
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email*</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">email*</label>
                         <input
                             type="email"
-                            placeholder="Your email address"
+                            placeholder="Your Email address"
                             className={inputClasses}
                             value={resumeData.personalInfo.email}
                             onChange={(e) => handlePersonalInfoChange('email', e.target.value)}
                             required
                             disabled={isSubmitted}
                         />
-                        {errors.email && <span className="text-sm text-red-600 mt-1">{errors.email}</span>}
+                        {errors.email && <span className="text-sm text-red-600 mt-1">{errors.secondaryEmail}</span>}
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">secondaryEmail</label>
+                        <input
+                            type="email"
+                            placeholder="Your secondary Email"
+                            className={inputClasses}
+                            value={resumeData.personalInfo.secondaryEmail}
+                            onChange={(e) => handlePersonalInfoChange('secondaryEmail', e.target.value)}
+                            required
+                            disabled={isSubmitted}
+                        />
+                        {errors.email && <span className="text-sm text-red-600 mt-1">{errors.secondaryEmail}</span>}
+                    </div>
+
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">GitHub Profile</label>
@@ -284,6 +297,18 @@ useEffect(() => {
                             className={inputClasses}
                             value={resumeData.personalInfo.linkedinProfile}
                             onChange={(e) => handlePersonalInfoChange('linkedinProfile', e.target.value)}
+                            disabled={isSubmitted}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">website</label>
+                        <input
+                            type="url"
+                            placeholder="https://website.com"
+                            className={inputClasses}
+                            value={resumeData.personalInfo.website}
+                            onChange={(e) => handlePersonalInfoChange('website', e.target.value)}
                             disabled={isSubmitted}
                         />
                     </div>
@@ -743,7 +768,7 @@ useEffect(() => {
                                     disabled={isSubmitted}
                                 />
                             </div>
-                        </div> 
+                        </div>
                         <div className="flex justify-end pt-2">
                             <button
                                 type="button"
