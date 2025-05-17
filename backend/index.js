@@ -66,7 +66,6 @@ async function(iss, sub, profile, accessToken, refreshToken, done) {
     });
     await newUser.save();
   }
-  
   return done(null, profile);
 }
 ));

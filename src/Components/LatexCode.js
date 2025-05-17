@@ -1,5 +1,5 @@
 const LatexCode = ({resumeData}) => {
-        const code = `
+  const code = `
 %-------------------------
 % Resume in Latex
 % Author : Arkadeep Das, Manas Daruka, Ayush Sharma, Abhinav Gupta
@@ -127,6 +127,7 @@ const LatexCode = ({resumeData}) => {
 \\newcommand{\\roll}{${resumeData.personalInfo.rollNumber || ''}}
 \\newcommand{\\phone}{${resumeData.personalInfo.contactNumber || ''}}
 \\newcommand{\\email}{${resumeData.personalInfo.email || ''}}
+
 ${resumeData.personalInfo.secondaryEmail ? `\\newcommand{\\secondaryEmail}{${resumeData.personalInfo.secondaryEmail}}` : `% no secondaryEmail`}
 ${resumeData.personalInfo.githubProfile ? `\\newcommand{\\github}{${resumeData.personalInfo.githubProfile}}` : `% no github`}
 ${resumeData.personalInfo.website ? `\\newcommand{\\website}{${resumeData.personalInfo.website}}` : `% no website`}
@@ -143,11 +144,30 @@ ${resumeData.personalInfo.website ? `\\newcommand{\\website}{${resumeData.person
   \\begin{tabularx}{\\linewidth}{L r}
     \\textbf{\\LARGE \\name} & +91-\\phone \\\\
     {Roll No.: \\roll} & \\href{mailto:\\email}{\\email} \\\\
+    
     \\course & 
-    ${resumeData.personalInfo.secondaryEmail ? `\\href{mailto:\\secondaryEmail}{\\secondaryEmail} \\\\` : ''}
-    ${resumeData.personalInfo.githubProfile ? `\\href{\\github}{Github}` : ''}
-    ${resumeData.personalInfo.website ? ` \$|$ \\href{\\website}{Website}` : ''} \\\\
-    {Indian Institute Of Technology, Guwahati} & \\href{\\linkedin}{LinkedIn}
+
+${resumeData.personalInfo.secondaryEmail ? `\\href{mailto:\\secondaryEmail}{\\secondaryEmail} \\\\` : 
+  `${resumeData.personalInfo.githubProfile ? `\\href{\\github}{Github}` : ''} 
+   ${resumeData.personalInfo.githubProfile && resumeData.personalInfo.website ? ` \$|$ ` : ''} 
+   ${resumeData.personalInfo.website ? `\\href{\\website}{Website}` : ''} \\\\`}
+
+
+    {Indian Institute Of Technology, Guwahati}&
+
+ ${resumeData.personalInfo.secondaryEmail ? 
+  `${resumeData.personalInfo.githubProfile ? `\\href{\\github}{Github}` : ''} 
+   ${resumeData.personalInfo.githubProfile && resumeData.personalInfo.website ? ` \$|$ ` : ''} 
+   ${resumeData.personalInfo.website ? `\\href{\\website}{Website}` : ''} \\\\`
+  : 
+  `${resumeData.personalInfo.linkedinProfile ? `\\href{\\linkedin}{LinkedIn} \\\\` : ''}`
+}
+
+
+    {}&
+    ${resumeData.personalInfo.secondaryEmail?`\\href{\\linkedin}{LinkedIn}\\\\`:''}
+
+    
   \\end{tabularx}
 }
 
