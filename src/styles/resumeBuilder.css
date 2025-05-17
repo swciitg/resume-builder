@@ -1,0 +1,79 @@
+.container {
+  @apply max-w-6xl mx-auto px-4 py-6;
+}
+
+/* Tablet (640px - 1024px) */
+@media (max-width: 1024px) {
+  .container {
+    @apply max-w-full px-3 py-4;
+  }
+  .text-2xl {
+    font-size: 1.5rem; /* Scale down section headings */
+  }
+  .text-sm {
+    font-size: 0.75rem; /* Scale down labels */
+  }
+  input, button {
+    padding: 0.5rem 0.75rem; /* Reduce padding */
+    font-size: 0.875rem; /* Smaller input text */
+  }
+  .w-5, .h-5 {
+    width: 1.25rem; /* Scale down icons */
+    height: 1.25rem;
+  }
+  .w-4, .h-4 {
+    width: 1rem;
+    height: 1rem;
+  }
+  .mb-8 {
+    margin-bottom: 1.5rem; /* Reduce section spacing */
+  }
+  .mb-4 {
+    margin-bottom: 0.75rem; /* Reduce card spacing */
+  }
+  .p-4 {
+    padding: 0.75rem; /* Reduce card padding */
+  }
+}
+
+/* Mobile (below 640px) */
+@media (max-width: 640px) {
+  .container {
+    @apply max-w-full px-2 py-3;
+  }
+  .text-2xl {
+    font-size: 1.25rem; /* Further scale down headings */
+  }
+  .text-sm {
+    font-size: 0.675rem; /* Smaller labels */
+  }
+  input, button {
+    padding: 0.375rem 0.5rem; /* Further reduce padding */
+    font-size: 0.75rem; /* Smaller input text */
+    line-height: 1.25rem; /* Ensure readability */
+  }
+  .w-5, .h-5 {
+    width: 1rem; /* Further scale down icons */
+    height: 1rem;
+  }
+  .w-4, .h-4 {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  .mb-8 {
+    margin-bottom: 1rem; /* Further reduce section spacing */
+  }
+  .mb-4 {
+    margin-bottom: 0.5rem; /* Further reduce card spacing */
+  }
+  .p-4 {
+    padding: 0.5rem; /* Further reduce card padding */
+  }
+  /* Ensure touch targets are accessible */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+}
+
