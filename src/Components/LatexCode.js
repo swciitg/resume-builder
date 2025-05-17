@@ -163,18 +163,18 @@ ${resumeData.personalInfo.website ? `\\newcommand{\\website}{${resumeData.person
   \\textbf{CGPA/Percentage} & 
   \\textbf{Year}\\\\
   \\hline
-  ${resumeData.education.map(edu => `${edu.degree || ''} & ${edu.institute || ''} & ${edu.cgpa || ''} & ${edu.year || ''} \\\\ \\hline `).join('')}
+  ${(resumeData.education||[]).map(edu => `${edu.degree || ''} & ${edu.institute || ''} & ${edu.cgpa || ''} & ${edu.year || ''} \\\\ \\hline `).join('')}
 \\end{tabularx}}
 \\vspace{-2mm}
 
 
-${resumeData.experience && resumeData.experience.length > 0 ? `
+${resumeData.experience && resumeData.experience?.length > 0 ? `
     %-----------EXPERIENCE-----------------
 \\section{Experience}
 \\resumeSubHeadingListStart
-${resumeData.experience.map(exp => `
+${(resumeData.experience||[]).map(exp => `
   \\resumeSubheading
-    {${exp.Company || ''}}{${exp.location || ''}}
+    {${exp.company || ''}}{${exp.location || ''}}
     {${exp.role || ''}}{${exp.timeline || ''}}
     \\resumeItemListStart
       ${exp.workDone.map(work => `\\item {${work}}`).join('\n')}
@@ -185,11 +185,11 @@ ${resumeData.experience.map(exp => `
 ` : ''}
 
 
-${resumeData.projects && resumeData.projects.length > 0 ? `
+${resumeData.projects && resumeData.projects?.length > 0 ? `
     %-----------PROJECTS-----------------
 \\section{Projects}
 \\resumeSubHeadingListStart
-${resumeData.projects.map(prj => `
+${(resumeData.projects||[]).map(prj => `
   \\resumeProject
     {${prj.name || ''}}
     {${prj.type || ''}}
@@ -204,11 +204,11 @@ ${resumeData.projects.map(prj => `
 ` : ''}
 
 
-${resumeData.technicalSkills.length > 0 ? `
+${resumeData.technicalSkills?.length > 0 ? `
 %---------------TECHNICAL SKILLS---------------
 \\section{Technical Skills}
 \\resumeHeadingSkillStart
-${resumeData.technicalSkills.map(skill => `
+${(resumeData.technicalSkills||[]).map(skill => `
   \\resumeSubItem{${skill.category}}
     {${skill.skills}}
 `).join('\n')}
@@ -216,23 +216,23 @@ ${resumeData.technicalSkills.map(skill => `
 ` : ''}
 
 
-${resumeData.courses.length > 0 ? `
+${resumeData.courses?.length > 0 ? `
 %---------------COURSES----------------
 \\section{Key Courses Taken}
 \\resumeHeadingSkillStart
-${resumeData.courses.map(course => `
+${(resumeData.courses||[]).map(course => `
   \\resumeSubItem{${course.category}}
     {${course.courseName}}
 `).join('\n')}
 \\resumeHeadingSkillEnd
 ` : ''}
 
-${resumeData.positions.length > 0 ? `
+${resumeData.positions?.length > 0 ? `
 %---------------Positions of Responsibility------------------
 \\section{Positions of Responsibility}
 \\vspace{-0.4mm}
 \\resumeSubHeadingListStart
-${resumeData.positions.map(pos => `
+${(resumeData.positions||[]).map(pos => `
   \\resumePOR{${pos.title}}
     {${pos.organization}}
     {${pos.timeline}}
@@ -246,12 +246,12 @@ ${resumeData.positions.map(pos => `
 \\vspace{-4mm}
 ` : ''}
 
-${resumeData.extracaurriculars.length > 0 ? `
+${resumeData.extracaurriculars?.length > 0 ? `
 %---------------Extra-curriculars------------------
 \\section{Extra-curriculars}
 \\vspace{-0.4mm}
 \\resumeSubHeadingListStart
-${resumeData.extracaurriculars.map(carr => `
+${(resumeData.extracaurriculars||[]).map(carr => `
   \\resumePOR{${carr.title}}
     {${carr.organization}}
     {${carr.timeline}}
@@ -265,14 +265,14 @@ ${resumeData.extracaurriculars.map(carr => `
 \\vspace{-4mm}
 ` : ''}
 
-${resumeData.achievements.length > 0 ? `
+${resumeData.achievements?.length > 0 ? `
 %-------------------Achievements-----------------
 \\section{Achievements}
 \\resumeItemListStart
 
 \\vspace{-0.2mm}
 \\resumeSubHeadingListStart
-${resumeData.achievements.map(ach => `
+${(resumeData.achievements||[]).map(ach => `
   \\resumeItem{${ach.title}: }
     {${ach.description}}
     {${ach.year}}

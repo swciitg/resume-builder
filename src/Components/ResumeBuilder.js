@@ -148,7 +148,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
 
     return (
         <>
-        <button className={`${buttonClasses} bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} onClick={handelProgress}>Save Progress</button>
+        <button className={`${buttonClasses} fixed transform -translate-y-1/2 ml-8 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} disabled={progressLoding} onClick={handelProgress}>Save Progress</button>
         <form className="container mx-auto px-4 py-6 max-w-6xl" onSubmit={handleSubmit}>
             {/* Personal Information Section */}
             <section className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm">
@@ -265,7 +265,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.education.map((education, index) => (
+                {(resumeData.education||[]).map((education, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -354,7 +354,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.experience.map((experience, index) => (
+                {(resumeData.experience||[]).map((experience, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -411,7 +411,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Work Done</label>
-                            {experience.workDone && experience.workDone.map((task, taskIndex) => (
+                            {experience.workDone && (experience.workDone||[]).map((task, taskIndex) => (
                                 <div key={taskIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -485,7 +485,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.projects.map((project, index) => (
+                {(resumeData.projects||[]).map((project, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -540,7 +540,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Project Details</label>
-                            {project.workDone && project.workDone.map((task, taskIndex) => (
+                            {project.workDone && (project.workDone||[]).map((task, taskIndex) => (
                                 <div key={taskIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -614,7 +614,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.technicalSkills.map((skill, index) => (
+                {(resumeData.technicalSkills||[]).map((skill, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -674,7 +674,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.courses.map((course, index) => (
+                {(resumeData.courses||[]).map((course, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -733,7 +733,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.positions.map((position, index) => (
+                {(resumeData.positions||[]).map((position, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -777,7 +777,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                            {position.description && position.description.map((desc, descIndex) => (
+                            {position.description && (position.description||[]).map((desc, descIndex) => (
                                 <div key={descIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -851,7 +851,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.extracaurriculars.map((activity, index) => (
+                {(resumeData.extracaurriculars||[]).map((activity, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -894,7 +894,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                            {activity.description && activity.description.map((desc, descIndex) => (
+                            {activity.description && (activity.description||[]).map((desc, descIndex) => (
                                 <div key={descIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -968,7 +968,7 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
                     </button>
                 </div>
 
-                {resumeData.achievements.map((achievement, index) => (
+                {(resumeData.achievements||[]).map((achievement, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
