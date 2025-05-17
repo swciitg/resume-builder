@@ -11,6 +11,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
+COPY .env ./
 
 EXPOSE 5000
 

@@ -37,7 +37,6 @@ function App() {
         fetchUser();
     }, []);
 
-    
 
     const {latexCodeE, setLatexCode} = useLatex();
     const entryTemplates = {
@@ -100,7 +99,10 @@ function App() {
             secondaryEmail:'',
             website:'',
         },
-        education: [],
+        education: [{
+            degree: '',
+            institute: '',
+        }],
         experience: [],
         projects: [],
         technicalSkills: [],
@@ -117,6 +119,48 @@ function App() {
         // positions: [{ ...entryTemplates.positions }],
         // achievements: [{ ...entryTemplates.achievements }],
     });
+
+    useEffect(() => {
+        if (!user) return;
+    
+        const {
+            personalInfo = {},
+            education = [],
+            experience = [],
+            projects = [],
+            technicalSkills = [],
+            courses = [],
+            positions = [],
+            achievements = [],
+            extracaurriculars = [],
+        } = user;
+    
+        const newResumeData = {
+            personalInfo: {
+                name: personalInfo.name || '',
+                rollNumber: personalInfo.rollNumber || '',
+                courseBranch: personalInfo.courseBranch || '',
+                contactNumber: personalInfo.contactNumber || '',
+                email: personalInfo.email || '',
+                githubProfile: personalInfo.githubProfile || '',
+                linkedinProfile: personalInfo.linkedinProfile || '',
+                secondaryEmail: personalInfo.secondaryEmail || '',
+                website: personalInfo.website || '',
+            }
+        };
+    
+        if (education.length > 0) newResumeData.education = education;
+        if (experience.length > 0) newResumeData.experience = experience;
+        if (projects.length > 0) newResumeData.projects = projects;
+        if (technicalSkills.length > 0) newResumeData.technicalSkills = technicalSkills;
+        if (courses.length > 0) newResumeData.courses = courses;
+        if (positions.length > 0) newResumeData.positions = positions;
+        if (achievements.length > 0) newResumeData.achievements = achievements;
+        if (extracaurriculars.length > 0) newResumeData.extracaurriculars = extracaurriculars;
+    
+        setResumeData(newResumeData);
+    }, [user]);
+    
 
     const latexCode = LatexCode({ resumeData });
 
@@ -164,6 +208,8 @@ function App() {
 
 
                     <ResumeBuilder
+                        user={user}
+                        setUser={setUser}
                         latexCode={latexCode}
                         resumeData={resumeData}
                         setResumeData={setResumeData}

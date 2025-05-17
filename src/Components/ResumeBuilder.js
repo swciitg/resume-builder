@@ -1,16 +1,15 @@
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useLatex } from './LatexContext';
 import '../styles/resumeBuilder.css';
+import isEqual from 'lodash.isequal';
 
-const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
-    useEffect(() => {
-        console.log(resumeData)
-    }, [resumeData])
+const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
+
     const { latexCodeE, setLatexCode } = useLatex();
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const [progressLoding , setProgressLoading] = useState(false);
     const validate = () => {
         let tempErrors = {};
         // Validate personal information
@@ -28,6 +27,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
     useEffect(() => {
         setLatexCode(latexCode);
     }, [latexCode])
+
     const handleInputChange = (section, index, field, value) => {
         const updatedData = { ...resumeData };
         updatedData[section][index][field] = value;
@@ -65,6 +65,69 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
         updatedData[section][index].workDone.push('');
         setResumeData(updatedData);
     };
+
+const prevDataRef = useRef(resumeData);
+
+useEffect(() => {
+    const handler = setTimeout(() => {
+        if (!isEqual(prevDataRef.current, resumeData)) {
+            // Resume data has changed
+            const autoSave = async () => {
+                if (!user) return;
+
+                setProgressLoading(true);
+                try {
+                    const response = await axios.put(
+                        'http://localhost:5000/saveprogress',
+                        { resumeData },
+                        {
+                            withCredentials: true,
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    console.log('Auto-saved:', response.data);
+                    setUser(response.data.user);
+                    prevDataRef.current = resumeData; // Update previous after saving
+                } catch (error) {
+                    console.error('Auto-save error:', error);
+                } finally {
+                    setProgressLoading(false);
+                }
+            };
+
+            autoSave();
+        }
+    }, 2000); // debounce time: 2s
+
+    return () => clearTimeout(handler); // clear timeout on cleanup
+}, [resumeData]);
+
+
+    const handelProgress = async () => {
+        setProgressLoading(true);
+        try {
+            const response = await axios.put(
+                'http://localhost:5000/saveprogress',
+                { resumeData },
+                {
+                    withCredentials: true, 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            console.log('Progress saved:', response.data);
+            setUser(response.data.user);
+        } catch (error) {
+            console.error('Error saving progress:', error);
+        } finally {
+            setProgressLoading(false);
+        }
+    };
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -126,6 +189,8 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
     `;
 
     return (
+        <>
+        <button className={`${buttonClasses} fixed transform -translate-y-1/2 ml-8 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} disabled={progressLoding} onClick={handelProgress}>Save Progress</button>
         <form className="container mx-auto px-4 py-6 max-w-6xl" onSubmit={handleSubmit}>
             {/* Personal Information Section */}
             <section className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm">
@@ -267,7 +332,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.education.map((education, index) => (
+                {(resumeData.education||[]).map((education, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -356,7 +421,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.experience.map((experience, index) => (
+                {(resumeData.experience||[]).map((experience, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -365,8 +430,8 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                                     type="text"
                                     placeholder="Company name"
                                     className={inputClasses}
-                                    value={experience.Company}
-                                    onChange={(e) => handleInputChange('experience', index, 'Company', e.target.value)}
+                                    value={experience.company}
+                                    onChange={(e) => handleInputChange('experience', index, 'company', e.target.value)}
                                     required
                                     disabled={isSubmitted}
                                 />
@@ -413,7 +478,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Work Done</label>
-                            {experience.workDone && experience.workDone.map((task, taskIndex) => (
+                            {experience.workDone && (experience.workDone||[]).map((task, taskIndex) => (
                                 <div key={taskIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -487,7 +552,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.projects.map((project, index) => (
+                {(resumeData.projects||[]).map((project, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -542,7 +607,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Project Details</label>
-                            {project.workDone && project.workDone.map((task, taskIndex) => (
+                            {project.workDone && (project.workDone||[]).map((task, taskIndex) => (
                                 <div key={taskIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -616,7 +681,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.technicalSkills.map((skill, index) => (
+                {(resumeData.technicalSkills||[]).map((skill, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -676,7 +741,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.courses.map((course, index) => (
+                {(resumeData.courses||[]).map((course, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -735,7 +800,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.positions.map((position, index) => (
+                {(resumeData.positions||[]).map((position, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -779,7 +844,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                            {position.description && position.description.map((desc, descIndex) => (
+                            {position.description && (position.description||[]).map((desc, descIndex) => (
                                 <div key={descIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -853,7 +918,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.extracaurriculars.map((activity, index) => (
+                {(resumeData.extracaurriculars||[]).map((activity, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -896,7 +961,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
 
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                            {activity.description && activity.description.map((desc, descIndex) => (
+                            {activity.description && (activity.description||[]).map((desc, descIndex) => (
                                 <div key={descIndex} className="flex items-center gap-2 mb-2">
                                     <span className="text-gray-500 dark:text-gray-400">•</span>
                                     <input
@@ -970,7 +1035,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                     </button>
                 </div>
 
-                {resumeData.achievements.map((achievement, index) => (
+                {(resumeData.achievements||[]).map((achievement, index) => (
                     <div key={index} className={sectionCardClasses}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -1062,6 +1127,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
             </div>
 
         </form>
+        </>
     );
 };
 
