@@ -4,13 +4,11 @@ import axios from 'axios';
 import { useLatex } from './LatexContext';
 import '../styles/resumeBuilder.css';
 
-const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
-    useEffect(() => {
-        console.log(resumeData)
-    }, [resumeData])
+const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErrors, latexCode, templates }) => {
+
     const { latexCodeE, setLatexCode } = useLatex();
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const [progressLoding , setProgressLoading] = useState(false);
     const validate = () => {
         let tempErrors = {};
         // Validate personal information
@@ -28,6 +26,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
     useEffect(() => {
         setLatexCode(latexCode);
     }, [latexCode])
+
     const handleInputChange = (section, index, field, value) => {
         const updatedData = { ...resumeData };
         updatedData[section][index][field] = value;
@@ -64,6 +63,28 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
         }
         updatedData[section][index].workDone.push('');
         setResumeData(updatedData);
+    };
+
+    const handelProgress = async () => {
+        setProgressLoading(true);
+        try {
+            const response = await axios.put(
+                'http://localhost:5000/saveprogress',
+                { resumeData },
+                {
+                    withCredentials: true, 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            console.log('Progress saved:', response.data);
+            setUser(response.data.user);
+        } catch (error) {
+            console.error('Error saving progress:', error);
+        } finally {
+            setProgressLoading(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -126,6 +147,8 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
     `;
 
     return (
+        <>
+        <button className={`${buttonClasses} bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} onClick={handelProgress}>Save Progress</button>
         <form className="container mx-auto px-4 py-6 max-w-6xl" onSubmit={handleSubmit}>
             {/* Personal Information Section */}
             <section className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm">
@@ -340,8 +363,8 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
                                     type="text"
                                     placeholder="Company name"
                                     className={inputClasses}
-                                    value={experience.Company}
-                                    onChange={(e) => handleInputChange('experience', index, 'Company', e.target.value)}
+                                    value={experience.company}
+                                    onChange={(e) => handleInputChange('experience', index, 'company', e.target.value)}
                                     required
                                     disabled={isSubmitted}
                                 />
@@ -1037,6 +1060,7 @@ const ResumeBuilder = ({ resumeData, setResumeData, errors, setErrors, latexCode
             </div>
 
         </form>
+        </>
     );
 };
 
