@@ -25,16 +25,14 @@ export default function Navbar({ toogleDark, darkMode }) {
     setLoadingPreview(true);
     setPreviewError(null);
     try {
-      const response = await axios.post(
-        "http://localhost:5000/compile",
-        { latexCode: latexCodeE },
-        {
-          responseType: "blob",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/compile`, {
+                latexCode: latexCodeE
+            }, {
+                responseType: 'blob',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);

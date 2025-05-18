@@ -1,0 +1,24 @@
+version: "3.3"
+services:
+  resume_builder_backend:
+    image: resume_builder_backend
+    container_name: resume_builder_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # volumes:
+    #   - ./uploads:/usr/src/app/backend/uploads 
+    ports:
+      - "2757:5000"
+    env_file:
+      - .env
+    networks:
+      - backend_welfare-board-strapi
+
+
+networks:
+  backend_welfare-board-strapi:
+    external: true

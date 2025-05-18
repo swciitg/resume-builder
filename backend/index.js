@@ -16,7 +16,7 @@ const port = 5000;
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: `${process.env.REACT_APP_CLIENT_URL}`,
   methods: ['GET', 'POST' , 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -39,7 +39,7 @@ passport.use(new OIDCStrategy({
   clientSecret: process.env.AZURE_CLIENT_SECRET,
   responseType: 'code',
   responseMode: 'query',
-  redirectUrl: 'http://localhost:5000/auth/azuread/callback',
+  redirectUrl: `${process.env.REDIRECT_URI}`,
   allowHttpForRedirectUrl: true,
   scope: ['profile', 'email', 'openid'],
   passReqToCallback: false
@@ -48,6 +48,7 @@ async function(iss, sub, profile, accessToken, refreshToken, done) {
   if (!profile.oid) {
     return done(new Error("No OID found"), null);
   }
+  console.log("Profile received:", profile);
   const user = await User.findOne({ userId: profile.oid });
   if (!user) {
     const newUser = new User({
@@ -87,7 +88,7 @@ app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', { failur
 app.get('/auth/azuread/callback',
   passport.authenticate('azuread-openidconnect', {
     failureRedirect: '/',
-    successRedirect: 'http://localhost:3000',
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}`,
   })
 );
 
@@ -108,6 +109,7 @@ app.get('/api/user', async (req, res) => {
 });
 app.use("/saveprogress",userRoute);
 app.post('/compile', async (req, res) => {
+  // console.log(req.body);
   try {
     const latexCode = req.body.latexCode;
     const fileName = 'resume';

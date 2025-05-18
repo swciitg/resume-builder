@@ -1,26 +1,20 @@
+version: "3.3"
 
 services:
-  backend:
+  resume_builder_frontend:
+    image: resume_builder_frontend
+    container_name: resume_builder_frontend
+    restart: always
     build:
-      context: ./backend
+        context: .
     ports:
-      - "5000:5000"
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
+      - "2756:3000"
+    env_file:
+    - ".env"
+    command: sh -c "cd /app && serve -s build"
+    networks:
+      - frontend_default
 
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    depends_on:
-      - backend
+networks:
+  frontend_default:
+    external: true

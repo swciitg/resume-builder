@@ -82,12 +82,27 @@ const ResumeBuilder = ({user, setUser, resumeData, setResumeData, errors, setErr
 
     const addWorkDone = (section, index) => {
         const updatedData = { ...resumeData };
-        if (!updatedData[section][index].workDone) {
+    
+        
+        if (!Array.isArray(updatedData[section])) {
+            updatedData[section] = [];
+        }
+    
+        
+        if (!updatedData[section][index]) {
+            updatedData[section][index] = { workDone: [] };
+        }
+    
+        
+        if (!Array.isArray(updatedData[section][index].workDone)) {
             updatedData[section][index].workDone = [];
         }
+    
+        
         updatedData[section][index].workDone.push('');
         setResumeData(updatedData);
     };
+    
 
 const prevDataRef = useRef(resumeData);
 
@@ -101,7 +116,7 @@ useEffect(() => {
                 setProgressLoading(true);
                 try {
                     const response = await axios.put(
-                        'http://localhost:5000/saveprogress',
+                        `${process.env.REACT_APP_SERVER_URL}/saveprogress`,
                         { resumeData },
                         {
                             withCredentials: true,
@@ -132,7 +147,7 @@ useEffect(() => {
         setProgressLoading(true);
         try {
             const response = await axios.put(
-                'http://localhost:5000/saveprogress',
+                `${process.env.REACT_APP_SERVER_URL}/saveprogress`,
                 { resumeData },
                 {
                     withCredentials: true, 
@@ -163,7 +178,7 @@ useEffect(() => {
         setIsSubmitted(true);
 
         try {
-            const response = await axios.post('http://localhost:5000/compile', {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/compile`, {
                 latexCode: latexCode
             }, {
                 responseType: 'blob',
@@ -213,7 +228,7 @@ useEffect(() => {
 
     return (
         <>
-        <button className={`${buttonClasses} fixed transform -translate-y-1/2 ml-8 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} disabled={progressLoding} onClick={handelProgress}>Save Progress</button>
+        <button className={`${buttonClasses} fixed z-50 transform -translate-y-1/2 ml-8 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} disabled={progressLoding} onClick={handelProgress}>Save Progress</button>
         <form className="container mx-auto px-4 py-6 max-w-6xl" onSubmit={handleSubmit}>
             {/* Personal Information Section */}
             <section className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm">
@@ -286,7 +301,7 @@ useEffect(() => {
                         {errors.email && <span className="text-sm text-red-600 mt-1">{errors.secondaryEmail}</span>}
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">secondaryEmail</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Secondary Email*</label>
                         <input
                             type="email"
                             placeholder="Your secondary Email"
@@ -325,7 +340,7 @@ useEffect(() => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">website</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Website</label>
                         <input
                             type="url"
                             placeholder="https://website.com"
@@ -664,9 +679,25 @@ useEffect(() => {
                                 type='button'
                                 onClick={() => {
                                     const updatedData = { ...resumeData };
+                                
+                                    
+                                    if (!updatedData.projects) {
+                                        updatedData.projects = [];
+                                    }
+                                    if (!updatedData.projects[index]) {
+                                        updatedData.projects[index] = {};
+                                    }
+                                
+                                    
+                                    if (!Array.isArray(updatedData.projects[index].workDone)) {
+                                        updatedData.projects[index].workDone = [];
+                                    }
+                                
+                                    
                                     updatedData.projects[index].workDone.push('');
                                     setResumeData(updatedData);
                                 }}
+                                
                                 className={`${buttonClasses} mt-2 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 text-sm`}
                                 disabled={isSubmitted}
                             >
@@ -901,6 +932,23 @@ useEffect(() => {
                                 type='button'
                                 onClick={() => {
                                     const updatedData = { ...resumeData };
+                                
+                                    
+                                    if (!updatedData.positions) {
+                                        updatedData.positions = [];
+                                    }
+                                
+                                    
+                                    if (!updatedData.positions[index]) {
+                                        updatedData.positions[index] = { description: [] };
+                                    }
+                                
+                                    
+                                    if (!Array.isArray(updatedData.positions[index].description)) {
+                                        updatedData.positions[index].description = [];
+                                    }
+                                
+                                    
                                     updatedData.positions[index].description.push('');
                                     setResumeData(updatedData);
                                 }}
@@ -1018,6 +1066,23 @@ useEffect(() => {
                                 type='button'
                                 onClick={() => {
                                     const updatedData = { ...resumeData };
+                                
+                                    
+                                    if (!updatedData.extracaurriculars) {
+                                        updatedData.extracaurriculars = [];
+                                    }
+                                
+                                    
+                                    if (!updatedData.extracaurriculars[index]) {
+                                        updatedData.extracaurriculars[index] = { description: [] };
+                                    }
+                                
+                                    
+                                    if (!Array.isArray(updatedData.extracaurriculars[index].description)) {
+                                        updatedData.extracaurriculars[index].description = [];
+                                    }
+                                
+                                    
                                     updatedData.extracaurriculars[index].description.push('');
                                     setResumeData(updatedData);
                                 }}
