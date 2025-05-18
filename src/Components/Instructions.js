@@ -34,29 +34,29 @@ const Instructions = ({ setInstructions }) => {
                     <ul className="list-disc list-inside space-y-2 mt-3">
                         <h2 className="font-bold">To make a word or sentence: </h2>
                         <li>
-                            <b><u>underlined</u>:</b> Write <code>\\underline{"{your text}"}</code>.
+                            <b><u>underlined</u>:</b> Write <code>\underline{"{your text}"}</code>.
                             <br />
-                            <em>Example:</em> To underline <code>important</code>, write <code>\\underline{"{important}"}</code>.
+                            <em>Example:</em> To underline <code>important</code>, write <code>\underline{"{important}"}</code>.
                         </li>
                         <li>
-                            <b><i>italicized</i>:</b> Write <code>\\textit{"{your text}"}</code>.
+                            <b><i>italicized</i>:</b> Write <code>\textit{"{your text}"}</code>.
                             <br />
-                            <em>Example:</em> To italicize <code>note</code>, write <code>\\textit{"{note}"}</code>.
+                            <em>Example:</em> To italicize <code>note</code>, write <code>\textit{"{note}"}</code>.
                         </li>
                         <li>
-                            <b><strong>bold</strong>:</b> Write <code>\\textbf{"{your text}"}</code>.
+                            <b><strong>bold</strong>:</b> Write <code>\textbf{"{your text}"}</code>.
                             <br />
-                            <em>Example:</em> To bold <code>important</code>, write <code>\\textbf{"{important}"}</code>.
+                            <em>Example:</em> To bold <code>important</code>, write <code>\textbf{"{important}"}</code>.
                         </li>
                         <li>
-                            <b>To start a new line (within the same paragraph):</b> Use double backslash <code>\\\\</code>.
+                            <b>To start a new line (within the same paragraph):</b> Use double backslash <code>\\</code>.
                             <br />
-                            <em>Example:</em> Write <code>First line \\\\ Second line</code> to move the second line down.
+                            <em>Example:</em> Write <code>First line \\ Second line</code> to move the second line down.
                         </li>
                         <li>
-                            <b>To add clickable links (hyperlinks):</b> Use <code>\\href{"{URL}"}{"{text to show}"}</code>.
+                            <b>To add clickable links (hyperlinks):</b> Use <code>\href{"{URL}"}{"{text to show}"}</code>.
                             <br />
-                            <em>Example:</em> Write <code>\\href{"https://example.com"}{"My Website"}</code> to show a clickable link named "My Website".
+                            <em>Example:</em> Write <code>\href{"https://example.com"}{"My Website"}</code> to show a clickable link named "My Website".
                         </li>
                     </ul>
                 </section>
@@ -64,7 +64,7 @@ const Instructions = ({ setInstructions }) => {
                 <section>
                     <h2 className="text-lg font-semibold mb-2">How to Write Special Characters</h2>
                     <p>
-                        Some symbols have special meaning in LaTeX. To show them as normal characters, you need to add a backslash (<code>\\</code>) before them.
+                        Some symbols have special meaning in LaTeX. To show them as normal characters, you need to add a backslash (<code>\</code>) before them.
                     </p>
                     <table className="table-auto border-collapse border border-gray-300 dark:border-gray-600 mt-3 w-full text-sm">
                         <thead>
@@ -78,37 +78,37 @@ const Instructions = ({ setInstructions }) => {
                             <tr>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">#</td>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">
-                                    <code>\\#</code>
+                                    <code>\#</code>
                                 </td>
-                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\\# means #</td>
+                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\# means #</td>
                             </tr>
                             <tr>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">$</td>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">
-                                    <code>\\$</code>
+                                    <code>\$</code>
                                 </td>
-                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\\$ means $</td>
+                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\$ means $</td>
                             </tr>
                             <tr>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">%</td>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">
-                                    <code>\\%</code>
+                                    <code>\%</code>
                                 </td>
-                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\\% means %</td>
+                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\% means %</td>
                             </tr>
                             <tr>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">&amp;</td>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">
-                                    <code>\\&amp;</code>
+                                    <code>\&amp;</code>
                                 </td>
-                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\\&amp; means &amp;</td>
+                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\&amp; means &amp;</td>
                             </tr>
                             <tr>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">^</td>
                                 <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">
-                                    <code>\\^</code>
+                                    <code>\^</code>
                                 </td>
-                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\\^ means ^ (caret)</td>
+                                <td className="border border-gray-300 dark:border-gray-600 px-3 py-1">\^ means ^ (caret)</td>
                             </tr>
                         </tbody>
                     </table>
