@@ -1,12 +1,9 @@
-FROM node:18
+FROM node:18-alpine AS builder
 
+# Set working directory
 WORKDIR /app
-
-COPY package.json package-lock.json ./
+RUN npm install -g serve
+COPY package* ./
 RUN npm install
-
 COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "run", "client"]
+RUN npm run build

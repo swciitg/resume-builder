@@ -1,17 +1,15 @@
-FROM node:18
+FROM node:20
+WORKDIR /usr/src/app/backend
+COPY package*.json ./
 
 # Install TeX Live for pdflatex
+
 RUN apt-get update && \
     apt-get install -y texlive-latex-base texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra && \
     apt-get clean
 
-WORKDIR /app
-
-COPY package.json package-lock.json ./
-RUN npm install
-
+RUN npm ci --production
 COPY . .
-COPY .env ./
 
 EXPOSE 5000
 

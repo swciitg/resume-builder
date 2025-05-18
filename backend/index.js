@@ -48,6 +48,7 @@ async function(iss, sub, profile, accessToken, refreshToken, done) {
   if (!profile.oid) {
     return done(new Error("No OID found"), null);
   }
+  console.log("Profile received:", profile);
   const user = await User.findOne({ userId: profile.oid });
   if (!user) {
     const newUser = new User({
@@ -108,7 +109,7 @@ app.get('/api/user', async (req, res) => {
 });
 app.use("/saveprogress",userRoute);
 app.post('/compile', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const latexCode = req.body.latexCode;
     const fileName = 'resume';
