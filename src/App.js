@@ -173,7 +173,7 @@ function App() {
   const [errors, setErrors] = useState({});
   const [showPreview, setShowPreview] = useState(false);
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
     const html = document.documentElement;
     if (darkMode) {
