@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import ResumeBuilder from "./Components/ResumeBuilder";
 import DisplayResume from "./Components/DisplayResume.js";
+import Instructions from "./Components/Instructions.js";
 import Navbar from "./Components/Navbar.js";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import LatexCode from "./Components/LatexCode.js";
@@ -11,7 +12,12 @@ import axios from "axios";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [instructions, setInstructions] = useState(false); // new toggle for Instructions component
+  const [showPreview, setShowPreview] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [darkMode, setDarkMode] = useState(false);
 
+  // User fetch effect with auth redirect
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true);
@@ -20,9 +26,7 @@ function App() {
           `${process.env.REACT_APP_SERVER_URL}/api/user`,
           {
             withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
           }
         );
         console.log(response.data);
@@ -41,7 +45,19 @@ function App() {
     fetchUser();
   }, []);
 
+  // Dark mode toggle effect
+  useEffect(() => {
+    const html = document.documentElement;
+    if (darkMode) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   const { latexCodeE, setLatexCode } = useLatex();
+
+  // Templates for new entries
   const entryTemplates = {
     education: {
       degree: "",
@@ -90,6 +106,7 @@ function App() {
     },
   };
 
+  // Initial state for resume data
   const [resumeData, setResumeData] = useState({
     personalInfo: {
       name: "",
@@ -115,16 +132,9 @@ function App() {
     positions: [],
     achievements: [],
     extracaurriculars: [],
-
-    // education: [{ ...entryTemplates.education }],
-    // experience: [{ ...entryTemplates.experience }],
-    // projects: [{ ...entryTemplates.projects }],
-    // technicalSkills: [{ ...entryTemplates.technicalSkills }],
-    // courses: [{ ...entryTemplates.courses }],
-    // positions: [{ ...entryTemplates.positions }],
-    // achievements: [{ ...entryTemplates.achievements }],
   });
 
+  // Update resumeData from fetched user
   useEffect(() => {
     if (!user) return;
 
@@ -157,54 +167,42 @@ function App() {
     if (education.length > 0) newResumeData.education = education;
     if (experience.length > 0) newResumeData.experience = experience;
     if (projects.length > 0) newResumeData.projects = projects;
-    if (technicalSkills.length > 0)
-      newResumeData.technicalSkills = technicalSkills;
+    if (technicalSkills.length > 0) newResumeData.technicalSkills = technicalSkills;
     if (courses.length > 0) newResumeData.courses = courses;
     if (positions.length > 0) newResumeData.positions = positions;
     if (achievements.length > 0) newResumeData.achievements = achievements;
-    if (extracaurriculars.length > 0)
-      newResumeData.extracaurriculars = extracaurriculars;
+    if (extracaurriculars.length > 0) newResumeData.extracaurriculars = extracaurriculars;
 
     setResumeData(newResumeData);
   }, [user]);
 
+  // Generate LaTeX code from resumeData
   const latexCode = LatexCode({ resumeData });
 
-  const [errors, setErrors] = useState({});
-  const [showPreview, setShowPreview] = useState(false);
+  if (loading) return <div>Loading...</div>;
 
-  const [darkMode, setDarkMode] = useState(false);
-  useEffect(() => {
-    const html = document.documentElement;
-    if (darkMode) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  return loading ? (
-    <div>Loding</div>
-  ) : (
+  return (
     <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">
+      {/* Navbar */}
       <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
         <Navbar toogleDark={() => setDarkMode(!darkMode)} darkMode={darkMode} />
       </div>
-      <div className="flex mt-16 h-[calc(100vh-4rem)] transition-all duration-700 ease-in-out ">
-        {/* ResumeBuilder */}
+
+      {/* Main content */}
+      <div className="flex mt-16 h-[calc(100vh-4rem)] transition-all duration-700 ease-in-out">
+        {/* ResumeBuilder panel */}
         <div
           className={`relative transition-all duration-700 ${
             showPreview ? "w-1/2" : "w-full"
           } h-full overflow-auto`}
         >
-          {/* Sliding button */}
+          {/* Toggle preview button */}
           <div className="sticky top-0 z-10 flex justify-end pt-4">
             <button
-              className=" rounded  text-gray-800 dark:text-white "
+              className="rounded text-gray-800 dark:text-white"
               onClick={() => setShowPreview(!showPreview)}
+              aria-label={showPreview ? "Hide Preview" : "Show Preview"}
             >
-              {/* {showPreview ? "Hide Preview" : "Show Preview"} */}
-              {/* <CodeBracketIcon className="w-5 h-5 mr-2" /> */}
               {showPreview ? (
                 <ChevronRightIcon className="w-8 h-8 text-primary_text hover:text-hover_accent" />
               ) : (
@@ -225,13 +223,17 @@ function App() {
           />
         </div>
 
-        {/* DisplayResume */}
+        {/* Preview panel: either Instructions or DisplayResume */}
         <div
           className={`transition-all duration-700 bg-gray-100 ${
             showPreview ? "w-1/2 translate-x-0" : "w-0 translate-x-full"
           } h-full overflow-y-auto bg-gray-100 dark:bg-gray-800`}
         >
-          <DisplayResume resumeData={resumeData} latexCode={latexCode} />
+          {instructions ? (
+            <Instructions setInstructions={setInstructions} resumeData={resumeData} latexCode={latexCode} />
+          ) : (
+            <DisplayResume setInstructions={setInstructions} resumeData={resumeData} latexCode={latexCode} />
+          )}
         </div>
       </div>
     </div>
