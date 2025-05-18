@@ -12,6 +12,7 @@ import axios from "axios";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
   const [instructions, setInstructions] = useState(false); // new toggle for Instructions component
   const [showPreview, setShowPreview] = useState(false);
   const [errors, setErrors] = useState({});
@@ -32,6 +33,7 @@ function App() {
         console.log(response.data);
         if (response.data.authenticated) {
           setUser(response.data.user);
+          setAuthenticated(true);
         } else {
           window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
         }
@@ -44,6 +46,7 @@ function App() {
 
     fetchUser();
   }, []);
+
 
   // Dark mode toggle effect
   useEffect(() => {
@@ -179,7 +182,9 @@ function App() {
   // Generate LaTeX code from resumeData
   const latexCode = LatexCode({ resumeData });
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || !authenticated) {
+    return <div className="h-screen w-screen bg-white dark:bg-gray-900" />;
+  }
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">

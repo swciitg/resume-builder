@@ -48,14 +48,13 @@ async function(iss, sub, profile, accessToken, refreshToken, done) {
   if (!profile.oid) {
     return done(new Error("No OID found"), null);
   }
-  console.log("Profile received:", profile);
   const user = await User.findOne({ userId: profile.oid });
   if (!user) {
     const newUser = new User({
       userId: profile.oid,
       personalInfo: {
         name: profile.displayName,
-        email: "",
+        email: profile._json.email,
         secondaryEmail: "",
         rollNumber: '',
         courseBranch: '',
