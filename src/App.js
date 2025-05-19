@@ -13,6 +13,7 @@ import LandingPage from "./Components/LandingPage.js";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
   const [instructions, setInstructions] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [errors, setErrors] = useState({});
@@ -33,6 +34,7 @@ function App() {
         console.log(response.data);
         if (response.data.authenticated) {
           setUser(response.data.user);
+          setAuthenticated(true);
         } else {
           // window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
         }
@@ -180,8 +182,7 @@ function App() {
   // Generate LaTeX code from resumeData
   const latexCode = LatexCode({ resumeData });
 
-  if (loading) return <div>Loading...</div>;
-  if(!user) return <LandingPage></LandingPage>
+  if (loading||!authenticated||!user) return <LandingPage></LandingPage>
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">
