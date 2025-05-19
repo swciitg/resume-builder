@@ -8,12 +8,12 @@ import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import LatexCode from "./Components/LatexCode.js";
 import { useLatex } from "./Components/LatexContext.js";
 import axios from "axios";
+import LandingPage from "./Components/LandingPage.js";
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-  const [instructions, setInstructions] = useState(false); // new toggle for Instructions component
+  const [instructions, setInstructions] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [errors, setErrors] = useState({});
   const [darkMode, setDarkMode] = useState(false);
@@ -33,12 +33,11 @@ function App() {
         console.log(response.data);
         if (response.data.authenticated) {
           setUser(response.data.user);
-          setAuthenticated(true);
         } else {
-          window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
+          // window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
         }
       } catch (error) {
-        window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
+        // window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
       } finally {
         setLoading(false);
       }
@@ -46,7 +45,6 @@ function App() {
 
     fetchUser();
   }, []);
-
 
   // Dark mode toggle effect
   useEffect(() => {
@@ -182,9 +180,8 @@ function App() {
   // Generate LaTeX code from resumeData
   const latexCode = LatexCode({ resumeData });
 
-  if (loading || !authenticated) {
-    return <div className="h-screen w-screen bg-white dark:bg-gray-900" />;
-  }
+  if (loading) return <div>Loading...</div>;
+  if(!user) return <LandingPage></LandingPage>
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">
