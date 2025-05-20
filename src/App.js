@@ -14,6 +14,7 @@ import Footer from "./Components/Footer.js";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
   const [instructions, setInstructions] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [errors, setErrors] = useState({});
@@ -34,6 +35,7 @@ function App() {
         console.log(response.data);
         if (response.data.authenticated) {
           setUser(response.data.user);
+          setAuthenticated(true);
         } else {
           // window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
         }
