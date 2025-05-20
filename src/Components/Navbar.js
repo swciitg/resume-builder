@@ -22,17 +22,6 @@ export default function Navbar({ toogleDark, darkMode,handleLogout }) {
   const previewButtonRef = useRef(null);
   const darkModeButtonRef = useRef(null);
 
-  const handleLogout = async () => {
-    try {
-      await axios.get(`${process.env.REACT_APP_SERVER_URL}/logout`, {
-        withCredentials: true,
-      });
-      window.location.href = '/';
-    } catch (err) {
-      console.error('Logout failed:', err);
-    }
-  };
-
 
   const handlePreview = useCallback(async () => {
     setLoadingPreview(true);

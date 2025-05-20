@@ -87,7 +87,7 @@ app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', {failure
     successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/`}));
 
 
-app.get('/logout', (req, res) => {
+app.get('/auth/logout', (req, res) => {
   req.logout(err => {
     if (err) {
       console.error('Logout error:', err);
