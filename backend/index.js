@@ -82,12 +82,13 @@ passport.deserializeUser(async (oid, done) => {
     done(err, null);
   }
 });
-app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }));
+app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', {failureRedirect: '/',
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/build`}));
 
 app.get('/auth/azuread/callback',
   passport.authenticate('azuread-openidconnect', {
     failureRedirect: '/',
-    successRedirect: `${process.env.REACT_APP_CLIENT_URL}`,
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/build`,
   })
 );
 
@@ -106,6 +107,25 @@ app.get('/api/user', async (req, res) => {
     res.json({ authenticated: false });
   }
 });
+
+
+//logout
+app.get('/auth/logout', (req, res) => {
+  // console.log('logout')
+  req.logout(err => {
+    if (err) {
+      return res.status(500).json({ message: 'Logout failed' });
+    }
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid'); // Important!
+      // console.log('log outted')
+      res.status(200).json({ message: 'Logged out successfully' });
+    });
+  });
+});
+
+
+
 app.use("/saveprogress",userRoute);
 app.post('/compile', async (req, res) => {
   // console.log(req.body);
