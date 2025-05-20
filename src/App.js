@@ -9,6 +9,7 @@ import LatexCode from "./Components/LatexCode.js";
 import { useLatex } from "./Components/LatexContext.js";
 import axios from "axios";
 import LandingPage from "./Components/LandingPage.js";
+import Footer from "./Components/Footer.js";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -181,7 +182,7 @@ function App() {
   const latexCode = LatexCode({ resumeData });
 
   if (loading) return <div>Loading...</div>;
-  if(!user) return <LandingPage></LandingPage>
+  if (!user) return <LandingPage></LandingPage>
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition">
@@ -194,9 +195,8 @@ function App() {
       <div className="flex mt-16 h-[calc(100vh-4rem)] transition-all duration-700 ease-in-out">
         {/* ResumeBuilder panel */}
         <div
-          className={`relative transition-all duration-700 ${
-            showPreview ? "w-1/2" : "w-full"
-          } h-full overflow-auto`}
+          className={`relative transition-all duration-700 ${showPreview ? "w-1/2" : "w-full"
+            } h-full overflow-auto`}
         >
           {/* Toggle preview button */}
           <div className="sticky top-0 z-10 flex justify-end pt-4">
@@ -222,14 +222,14 @@ function App() {
             errors={errors}
             setErrors={setErrors}
             templates={entryTemplates}
+            darkMode={darkMode}
           />
         </div>
 
         {/* Preview panel: either Instructions or DisplayResume */}
         <div
-          className={`transition-all duration-700 bg-gray-100 ${
-            showPreview ? "w-1/2 translate-x-0" : "w-0 translate-x-full"
-          } h-full overflow-y-auto bg-gray-100 dark:bg-gray-800`}
+          className={`transition-all duration-700 bg-gray-100 ${showPreview ? "w-1/2 translate-x-0" : "w-0 translate-x-full"
+            } h-full overflow-y-auto bg-gray-100 dark:bg-gray-800`}
         >
           {instructions ? (
             <Instructions setInstructions={setInstructions} resumeData={resumeData} latexCode={latexCode} />
