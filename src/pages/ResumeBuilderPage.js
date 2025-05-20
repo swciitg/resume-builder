@@ -169,7 +169,7 @@ function ResumeBuilderPage({ apiUser }) {
             await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
                 withCredentials: true,
             });
-            navigate('/resume-builder'); // Navigate to landing page
+            navigate('/resume-builder/landing-page'); // Navigate to landing page
         } catch (err) {
             console.error("Logout failed", err);
         }

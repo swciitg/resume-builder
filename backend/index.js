@@ -82,13 +82,13 @@ passport.deserializeUser(async (oid, done) => {
     done(err, null);
   }
 });
-app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', {failureRedirect: '/',
-    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/build`}));
+app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', {failureRedirect: '/',prompt:'login',
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/`}));
 
 app.get('/auth/azuread/callback',
   passport.authenticate('azuread-openidconnect', {
     failureRedirect: '/',
-    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/build`,
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/`,
   })
 );
 

@@ -12,8 +12,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/resume-builder" element={<LandingPage />} />
-        <Route path="/resume-builder/build" element={user ? <ResumeBuilderPage apiUser={user} /> : <Navigate to="/resume-builder" />} />
+        <Route path="/resume-builder/landing-page" element={<LandingPage />} />
+        <Route path="/resume-builder/" element={user ? <ResumeBuilderPage apiUser={user} /> : <Navigate to="/resume-builder/landing-page" />} />
       </Routes>
     </Router>
   );
