@@ -3,6 +3,7 @@ import {
   MoonIcon,
   SunIcon,
   XMarkIcon,
+  ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/outline";
 import logo from "../assets/iitg_logo_bg.png";
 import axios from "axios";
@@ -20,6 +21,18 @@ export default function Navbar({ toogleDark, darkMode }) {
   const tooltipRef = useRef(null);
   const previewButtonRef = useRef(null);
   const darkModeButtonRef = useRef(null);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get(`${process.env.REACT_APP_SERVER_URL}/logout`, {
+        withCredentials: true,
+      });
+      window.location.href = '/';
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  };
+
 
   const handlePreview = useCallback(async () => {
     setLoadingPreview(true);
@@ -155,6 +168,12 @@ export default function Navbar({ toogleDark, darkMode }) {
           ) : (
             <MoonIcon className="w-5 h-5" />
           )}
+        </button>
+           <button
+          onClick={handleLogout}
+          className="ml-2 px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200 ease-in-out shadow-sm focus:outline-none focus:ring-2 focus:ring-primary_text focus:ring-opacity-50"
+        >
+          <ArrowRightOnRectangleIcon className="w-5 h-5" />
         </button>
         {(previewTooltipVisible || darkModeTooltipVisible) && (
           <div ref={tooltipRef} style={tooltipStyles}>
