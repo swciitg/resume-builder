@@ -22,7 +22,6 @@ export default function Navbar({ toogleDark, darkMode,handleLogout }) {
   const previewButtonRef = useRef(null);
   const darkModeButtonRef = useRef(null);
 
-
   const handlePreview = useCallback(async () => {
     setLoadingPreview(true);
     setPreviewError(null);

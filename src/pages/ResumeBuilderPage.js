@@ -9,6 +9,7 @@ import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import LatexCode from "../Components/LatexCode.js";
 import { useLatex } from "../Components/LatexContext.js";
 import axios from "axios";
+import Footer from "../Components/Footer.js";
 
 function ResumeBuilderPage({ apiUser }) {
     const [user, setUser] = useState(null);
@@ -215,6 +216,7 @@ function ResumeBuilderPage({ apiUser }) {
                         errors={errors}
                         setErrors={setErrors}
                         templates={entryTemplates}
+                        darkMode={darkMode}
                     />
                 </div>
 
