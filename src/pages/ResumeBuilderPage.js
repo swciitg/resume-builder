@@ -9,7 +9,6 @@ import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
 import LatexCode from "../Components/LatexCode.js";
 import { useLatex } from "../Components/LatexContext.js";
 import axios from "axios";
-import Footer from "../Components/Footer.js";
 
 function ResumeBuilderPage({ apiUser }) {
     const [user, setUser] = useState(null);
@@ -170,7 +169,7 @@ function ResumeBuilderPage({ apiUser }) {
             await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
                 withCredentials: true,
             });
-            navigate('/resume-builder/landing-page'); // Navigate to landing page
+            navigate('/resume-builder/login'); // Navigate to landing page
         } catch (err) {
             console.error("Logout failed", err);
         }
