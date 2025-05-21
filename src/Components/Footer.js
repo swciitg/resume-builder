@@ -11,7 +11,7 @@ const Footer = ({ darkMode }) => {
             className="flex flex-col mb-0 mt-12 bottom-0"
             style={{ backgroundColor: darkMode ? '#192b45' : '#dee7f4' }}
         >
-            <div className=" flex-col lg:flex-row justify-evenly  pt-8">
+            {/* <div className=" flex-col lg:flex-row justify-evenly  pt-8">
                 <div className=" flex flex-col  lg:basis-1/3 md:flex-row md:justify-evenly md:items-center w-full">
                     <div className="font-Inter text-3xl md:text-4xl xl:text-6xl leading-tight text-center">Get in touch! <p className="hidden lg:inline">&nbsp;</p></div>
                     <div className="flex justify-around my-4 mx-6">
@@ -27,14 +27,10 @@ const Footer = ({ darkMode }) => {
                     </div>
                 </div>
 
-                {/* <div className=" flex flex-col lg:flex-row justify-evenly  pt-8">
-                    <div className="font-Inter text-2xl md:text-4xl xl:text-5xl md:text-center">MADE BY SWC </div>
-                </div> */}
-            </div>
-            <div className="flex justify-center basis-1/3 mt-8 mb-6">
-                <div className="flex justify-between w-4/5"
-                    style={{ borderTop: darkMode?'1px solid #706e6e':'1px solid #a6a6a6'}}>
-                    <div className="flex pl-3 pt-4 font-Inter font-normal text-xs leading-4 text-greyuse">© Students Web Committee</div>
+            </div> */}
+            <div className="flex justify-center basis-1/3 mt-3 mb-6">
+                <div className="flex justify-between w-4/5">
+                    <div className="flex pl-3 pt-4 font-Inter font-normal text-sm leading-4 text-greyuse">© Students Web Committee</div>
                     <div className="flex pt-4">
                         <div className="flex mr-3">
                             <a href='https://www.facebook.com/swciitg/' target="_blank" rel="noopener noreferrer">
