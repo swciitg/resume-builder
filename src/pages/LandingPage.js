@@ -1,7 +1,7 @@
 import outlook_logo from '../assets/Outlook.png';
 import Resume_sample from '../assets/resume_.png';
-import SWC from '../assets/SWC.png'
-import iitg_logo from '../assets/iitg_logo_ng.png'
+import SWC from '../assets/SWC.png';
+import iitg_logo from '../assets/iitg_logo_ng.png';
 import ellipse from '../assets/ellipse_1.png';
 import tilted from '../assets/tilted_resume.png';
 import { useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col relative overflow-hidden">
+    <div className="h-screen w-screen flex flex-col relative overflow-hidden bg-white">
       {/* Navbar */}
       <nav className="flex items-center justify-between px-3 sm:px-6 py-2 md:py-2 shadow-md dark:bg-gray-900 transition z-20 relative">
         <div className="flex items-center space-x-1 sm:space-x-2">
@@ -58,10 +58,14 @@ const LandingPage = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center bg-gradient-to-br from-white to-blue-50 px-6 py-3 xs:py-6">
-        <div className="w-full max-w-6xl rounded-lg flex flex-col md:flex-row items-center justify-between px-4 py-2 xs:py-4 md:p-6 relative">
+      <main className="flex-grow flex items-center justify-center relative px-6 py-3 xs:py-6 bg-white overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,_#ffffff_0%,_#ebf5ff_40%,_#dbeafe_70%,_#bfdbfe_100%)] z-0"></div>
+
+        {/* Main Content */}
+        <div className="relative z-10 w-full max-w-6xl rounded-lg flex flex-col md:flex-row items-center justify-between px-4 py-2 xs:py-4 md:p-6">
           {/* Left Section: Text */}
-          <div className='h-full flex flex-col items-start justify-center space-y-4 md:space-y-5 transform md:-translate-y-10'>
+          <div className="h-full flex flex-col items-start justify-center space-y-4 md:space-y-5 transform md:-translate-y-10">
             <div className="md:w-full space-y-3 xs:space-y-4 md:space-y-5">
               <h1 className="text-3xl xs:text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
                 Build Your <span className="text-blue-600">Resume</span><br />
@@ -74,9 +78,18 @@ const LandingPage = () => {
                 Endorsed by SWC — your go-to platform for creating campus-approved, code-free resumes in minutes.
               </p>
 
+              {/* Outlook Login Button */}
               <button
                 onClick={handleLogin}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+                className="flex items-center space-x-2 px-4 py-2 
+                           bg-[background: rgba(238, 243, 255, 1);
+] 
+                           text-[rgba(30,72,178,1)] 
+                           rounded-md shadow 
+                           hover:bg-[background: rgba(219, 234, 254, 1)]
+                           hover:text-blue-800 
+                           hover:scale-105 
+                           transition-all duration-200 ease-in-out transform"
               >
                 <img src={outlook_logo} alt="Outlook" className="w-5 h-5" />
                 <span>Continue with Outlook</span>
@@ -89,36 +102,13 @@ const LandingPage = () => {
             <img
               src={src}
               alt="Combined Resume preview"
-              className="
-      rounded-lg 
-      object-contain 
-      transform 
-      -translate-y-10
-      sm:max-w-sm 
-      md:max-w-md 
-      lg:max-w-xl 
-      scale-110
-      sm:scale-100 
-      md:scale-100 
-      lg:scale-110"
+              className="rounded-lg object-contain transform -translate-y-10
+                         sm:max-w-sm md:max-w-md lg:max-w-xl 
+                         scale-110 sm:scale-100 md:scale-100 lg:scale-110"
             />
-
-
-
-            {/* <img
-              src={Resume_sample}
-              alt="Resume preview"
-              className="rounded-lg w-full max-w-xl object-contain relative lg:bottom-20 z-10 transform lg:translate-x-40 lg:-left-10 lg:translate-y-5 scale-125 md:bottom-5 md:translate-x-40 md:translate-y-5"
-            /> */}
-            {/* <img
-              src={Resume_sample}
-              alt="Resume preview"
-              className="rounded-lg w-full max-w-xl object-contain relative lg:bottom-20 lg:right-10 transform lg:-translate-x-60 lg:-translate-y-3 scale-125 md:bottom-5 md:-left-20 md:-translate-x-40 md:-translate-y-2"
-            /> */}
           </div>
 
-
-          {/* Ellipse */}
+          {/* Decorative Ellipses */}
           <img
             src={ellipse}
             alt="Background Ellipse"
@@ -130,15 +120,14 @@ const LandingPage = () => {
             className="absolute right-0 top-0 z-0 opacity-50 md:opacity-90 w-1/3 transform translate-y-1/2 rotate-45"
           />
         </div>
-        <div className='absolute -bottom-2 w-full z-10'>
-          <Footer darkMode={false}></Footer>
-        </div>
-      </main >
 
-      {/* Footer */}
-    </div >
+        {/* Footer */}
+        <div className='absolute -bottom-2 w-full z-10'>
+          <Footer darkMode={false} />
+        </div>
+      </main>
+    </div>
   );
 };
 
 export default LandingPage;
-
