@@ -28,9 +28,9 @@ const Footer = ({ darkMode }) => {
                 </div>
 
             </div> */}
-            <div className="flex justify-center basis-1/3 mt-3 mb-6">
+            <div className="flex justify-center basis-1/3 mt-2 mb-6">
                 <div className="flex justify-between w-4/5">
-                    <div className="flex pl-3 pt-4 font-Inter font-normal text-sm leading-4 text-greyuse">© Students Web Committee</div>
+                    <div className="flex pl-3 pt-4 font-Inter font-normal text-md leading-4 text-greyuse">© Students Web Committee</div>
                     <div className="flex pt-4">
                         <div className="flex mr-3">
                             <a href='https://www.facebook.com/swciitg/' target="_blank" rel="noopener noreferrer">
