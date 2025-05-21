@@ -404,7 +404,7 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">CGPA/Percentage*</label>
                                     <input
                                         type="text"
-                                        placeholder="e.g. 8.5 CGPA or 85%"
+                                        placeholder="e.g. 8.5 CGPA or 85\% (use \% for percentage or view instructions)"
                                         className={inputClasses}
                                         value={education.cgpa}
                                         onChange={(e) => handleInputChange('education', index, 'cgpa', e.target.value)}

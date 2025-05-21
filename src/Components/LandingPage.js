@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
 
 const LandingPage = ({ user }) => {
-    // useEffect(() => {
-    //     if (user && user?._id) {
-    //         window.location.href = `${process.env.REACT_APP_CLIENT_URL}`;
-    //     }
-    // }, [user]);
+
 
     const LoginUser = () => {
         window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/azuread`;
