@@ -169,7 +169,10 @@ function ResumeBuilderPage({ apiUser }) {
             await axios.get(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
                 withCredentials: true,
             });
+            setUser(null); // Clear user state
+            console.log("Logout successful clear user state");
             navigate('/resume-builder/login'); // Navigate to landing page
+            navigate(0); // Refresh the page
         } catch (err) {
             console.error("Logout failed", err);
         }
