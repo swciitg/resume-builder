@@ -4,6 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { LatexProvider } from './Components/LatexContext';
+import resumeImage from './assets/resume_.png';
+
+const link = document.createElement('link');
+link.rel = 'preload';
+link.as = 'image';
+link.href = resumeImage;
+document.head.appendChild(link);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
