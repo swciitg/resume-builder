@@ -12,6 +12,9 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
     const { latexCodeE, setLatexCode } = useLatex();
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [progressLoding, setProgressLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null });
+
     const validate = () => {
         let tempErrors = {};
         // Validate personal information
@@ -259,6 +262,35 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
 
     return (
         <>
+        {isModalOpen && (
+    <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-[90%] text-center animate-fade-in">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Delete Skill Category?</h2>
+            <p className="text-gray-600 mb-6">
+    This will permanently delete an entry from your <span className="font-semibold text-gray-800">{deleteTarget.section}</span> section. Are you sure you want to continue?
+</p>
+
+            <div className="flex justify-center space-x-4">
+                <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-5 py-2.5 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition font-medium"
+                >
+                    Cancel
+                </button>
+                <button
+                    onClick={() => {
+                        deleteEntry(deleteTarget.section, deleteTarget.index);
+                        setIsModalOpen(false);
+                    }}
+                    className="px-5 py-2.5 rounded-full bg-red-500 text-white hover:bg-red-600 transition font-medium"
+                >
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+)}
+
             <button className={`${buttonClasses} fixed z-50 transform -translate-y-1/2 ml-8 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} disabled={progressLoding} onClick={handelProgress}>Save Progress</button>
             <form className="container mx-auto px-4 py-6 max-w-6xl" onSubmit={handleSubmit}>
                 {/* Personal Information Section */}
@@ -459,7 +491,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('education', index)}
+                                    onClick={() => {
+        setDeleteTarget({ section: 'education', index });
+        setIsModalOpen(true);
+    }}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this education entry"
@@ -593,7 +628,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
 
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('experience', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'experience', index });
+    setIsModalOpen(true);
+}}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this experience entry"
@@ -739,7 +777,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('projects', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'projects', index });
+    setIsModalOpen(true);
+}}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this project"
@@ -799,7 +840,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end pt-2">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('technicalSkills', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'technicalSkills', index });
+    setIsModalOpen(true);
+}}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this skill category"
@@ -858,7 +902,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end pt-2">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('courses', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'courses', index });
+    setIsModalOpen(true);
+}}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this course"
@@ -993,7 +1040,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('positions', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'positions', index });
+    setIsModalOpen(true);
+}}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this position"
@@ -1127,7 +1177,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('extracaurriculars', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'extracaurriculars', index });
+    setIsModalOpen(true);
+}}
                                     className="text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this activity"
@@ -1196,7 +1249,10 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    onClick={() => deleteEntry('achievements', index)}
+                                    onClick={() => {
+    setDeleteTarget({ section: 'achievements', index });
+    setIsModalOpen(true);
+}}
                                     className=" text-red-500 hover:text-red-700 transition"
                                     disabled={isSubmitted}
                                     title="Delete this achievement"
