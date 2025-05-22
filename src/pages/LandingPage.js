@@ -86,9 +86,6 @@ const LandingPage = () => {
 ] 
                            text-[rgba(30,72,178,1)] 
                            rounded-md shadow 
-                           hover:bg-[background: rgba(219, 234, 254, 1)]
-                           hover:text-blue-800 
-                           hover:scale-105 
                            transition-all duration-200 ease-in-out transform"
               >
                 <img src={outlook_logo} alt="Outlook" className="w-5 h-5" />
