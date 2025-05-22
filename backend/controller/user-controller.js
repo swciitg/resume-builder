@@ -16,6 +16,9 @@ module.exports.getUserInfo = async (req, res) => {
 }
 
 module.exports.saveProgress = async (req, res) => {
+      if (!req.user || !req.user.userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
     try {
         const updatedData = req.body.resumeData;
         const userId = req.user.userId;
