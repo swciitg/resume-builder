@@ -5,6 +5,7 @@ import { useLatex } from './LatexContext';
 import '../styles/resumeBuilder.css';
 import isEqual from 'lodash.isequal';
 import Footer from './Footer';
+import toast from 'react-hot-toast';
 
 const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setErrors, latexCode, templates,darkMode }) => {
 
@@ -44,6 +45,17 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
             },
         });
     };
+    const requiredFields = {
+        experience: ['company', 'role', 'timeline' , 'location'],
+        projects: ['name', 'type' , 'githubLink' , 'timeline'], 
+        education: ['institute', 'degree', 'cgpa' , 'year'],
+        courses: ['categoty', 'courseName'],
+        positions: ['title', 'organization', 'timeline'],
+        achievements: ['title', 'description', 'year'],
+        extracaurriculars: ['title', 'organization', 'timeline'],
+        technicalSkills: ['category', 'skills'],
+    };
+    
 
     // const addEntry = (section) => {
     //     const updatedData = { ...resumeData };
@@ -58,17 +70,35 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
     //     setResumeData(updatedData);
     // };
     const addEntry = (section) => {
-        if (!templates || !templates[section]) {
+        if (!templates || !templates[section]) return;
+      
+        const currentEntries = resumeData[section] || [];
+        const lastEntry = currentEntries.at(-1);
+      
+        // Only check if there is a last entry to validate
+        if (lastEntry && requiredFields[section]) {
+          // Check if any required field is missing or empty
+          const missingField = requiredFields[section].some(
+            (field) => !lastEntry[field] || lastEntry[field].toString().trim() === ''
+          );
+      
+          if (missingField) {
+            toast.error("Please complete the previous entry before adding a new one.");
             return;
+          }
         }
+      
         setResumeData((prevData) => {
-            const updatedSection = [...(prevData[section] || []), templates[section]];
-            return {
-                ...prevData,
-                [section]: updatedSection,
-            };
+          const updatedSection = [...(prevData[section] || []), templates[section]];
+          return {
+            ...prevData,
+            [section]: updatedSection,
+          };
         });
-    };
+      };
+      
+
+    
 
     const deleteEntry = (section, index) => {
         setResumeData((prevData) => {
@@ -485,6 +515,7 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
                                         value={experience.location}
                                         onChange={(e) => handleInputChange('experience', index, 'location', e.target.value)}
                                         disabled={isSubmitted}
+                                        required
                                     />
                                 </div>
 
