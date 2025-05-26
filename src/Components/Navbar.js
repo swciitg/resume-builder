@@ -9,6 +9,8 @@ import logo from "../assets/iitg_logo_bg.png";
 import axios from "axios";
 import { useLatex } from "./LatexContext";
 import { useState, useCallback } from "react";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
+
 
 export default function Navbar({ toogleDark, darkMode, handleLogout }) {
   const { latexCodeE } = useLatex();
@@ -94,6 +96,15 @@ export default function Navbar({ toogleDark, darkMode, handleLogout }) {
               {darkMode ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />}
             </button>
           </TooltipWrapper>
+
+          <TooltipWrapper label="Give Feedback">
+  <button
+    onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLScJ91u9C6VXaqDLR1tvmVN6-KoKN14rfskTuhwTz3WbIn1XYQ/viewform?usp=sharing&ouid=115458775860899960937", "_blank")}
+    className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+  >
+    <ChatBubbleLeftRightIcon className="w-5 h-5" />
+  </button>
+</TooltipWrapper>
 
           <TooltipWrapper label="Logout">
             <button
