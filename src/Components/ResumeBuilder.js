@@ -52,7 +52,7 @@ const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null })
         experience: ['company', 'role', 'timeline' , 'location'],
         projects: ['name', 'type' , 'githubLink' , 'timeline'], 
         education: ['institute', 'degree', 'cgpa' , 'year'],
-        courses: ['categoty', 'courseName'],
+        courses: ['category', 'courseName'],
         positions: ['title', 'organization', 'timeline'],
         achievements: ['title', 'description', 'year'],
         extracaurriculars: ['title', 'organization', 'timeline'],
