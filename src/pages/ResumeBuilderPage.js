@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-// import "./App.css";
 import ResumeBuilder from "../Components/ResumeBuilder.js";
 import DisplayResume from "../Components/DisplayResume.js";
 import Instructions from "../Components/Instructions.js";
@@ -15,9 +14,8 @@ function ResumeBuilderPage({ apiUser }) {
     useEffect(() => {
         setUser(apiUser);
     }, [apiUser]);
-    //   const [loading, setLoading] = useState(true);
-    //   const [authenticated, setAuthenticated] = useState(false);
-    const [instructions, setInstructions] = useState(false); // new toggle for Instructions component
+
+    const [instructions, setInstructions] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
     const [errors, setErrors] = useState({});
     const [darkMode, setDarkMode] = useState(false);
@@ -87,6 +85,7 @@ function ResumeBuilderPage({ apiUser }) {
 
     // Initial state for resume data
     const [resumeData, setResumeData] = useState({
+        fontSize: 11,
         personalInfo: {
             name: "",
             rollNumber: "",
@@ -118,6 +117,7 @@ function ResumeBuilderPage({ apiUser }) {
         if (!user) return;
 
         const {
+            fontSize,
             personalInfo = {},
             education = [],
             experience = [],
@@ -130,6 +130,7 @@ function ResumeBuilderPage({ apiUser }) {
         } = user;
 
         const newResumeData = {
+            fontSize: fontSize,
             personalInfo: {
                 name: personalInfo.name || "",
                 rollNumber: personalInfo.rollNumber || "",

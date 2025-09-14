@@ -8,7 +8,7 @@ const LatexCode = ({resumeData}) => {
 
 %---- Required Packages and Functions ----
 
-\\documentclass[a4paper,11pt]{article}
+\\documentclass[a4paper,${resumeData.fontSize || 11}pt]{article}
 \\usepackage{latexsym}
 \\usepackage{xcolor}
 \\usepackage{float}

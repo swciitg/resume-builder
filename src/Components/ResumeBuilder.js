@@ -13,7 +13,7 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [progressLoding, setProgressLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null });
+    const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null });
 
     const validate = () => {
         let tempErrors = {};
@@ -25,9 +25,7 @@ const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null })
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0; // Return true if no errors
     };
-    // useEffect(()=>{
-    //     console.log(resumeData);
-    // },[resumeData])
+
 
     useEffect(() => {
         setLatexCode(latexCode);
@@ -60,27 +58,12 @@ const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null })
     };
     
 
-    // const addEntry = (section) => {
-    //     const updatedData = { ...resumeData };
-    //     updatedData[section].push(templates[section]);
-    //     setResumeData(updatedData);
-    // };
-
-    // const deleteEntry = (section, index) => {
-    //     const updatedData = { ...resumeData };
-    //     updatedData[section] = [...updatedData[section]];
-    //     updatedData[section].splice(index, 1);
-    //     setResumeData(updatedData);
-    // };
     const addEntry = (section) => {
         if (!templates || !templates[section]) return;
       
         const currentEntries = resumeData[section] || [];
         const lastEntry = currentEntries.at(-1);
-      
-        // Only check if there is a last entry to validate
         if (lastEntry && requiredFields[section]) {
-          // Check if any required field is missing or empty
           const missingField = requiredFields[section].some(
             (field) => !lastEntry[field] || lastEntry[field].toString().trim() === ''
           );
@@ -143,7 +126,6 @@ const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null })
     useEffect(() => {
         const handler = setTimeout(() => {
             if (!isEqual(prevDataRef.current, resumeData)) {
-                // Resume data has changed
                 const autoSave = async () => {
                     if (!user) return;
 
@@ -265,11 +247,11 @@ const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null })
         {isModalOpen && (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
         <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-[90%] text-center animate-fade-in">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Delete Skill Category?</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Delete This Category?</h2>
             <p className="text-gray-600 mb-6">
     This will permanently delete an entry from your <span className="font-semibold text-gray-800">{deleteTarget.section}</span> section. Are you sure you want to continue?
 </p>
-
+            
             <div className="flex justify-center space-x-4">
                 <button
                     onClick={() => setIsModalOpen(false)}
@@ -293,6 +275,35 @@ const [deleteTarget, setDeleteTarget] = useState({ section: null, index: null })
 
             <button className={`${buttonClasses} fixed z-50 transform -translate-y-1/2 ml-8 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 flex items-center`} disabled={progressLoding} onClick={handelProgress}>Save Progress</button>
             <form className="container mx-auto px-4 py-6 max-w-6xl" onSubmit={handleSubmit}>
+{/* ===== Resume Settings Section (Font Size) ===== */}
+<section className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm">
+  <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+    Resume Settings
+  </h2>
+
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      Font Size (pt)
+    </label>
+    <input
+      type="number"
+      min="9"
+      max="12"
+      step="1"
+      value={resumeData.fontSize || 11}
+      onChange={(e) =>
+        setResumeData({
+          ...resumeData,
+          fontSize: parseInt(e.target.value, 10) || 11,
+        })
+      }
+      className={inputClasses}
+      disabled={isSubmitted}
+    />
+  </div>
+</section>
+
+
                 {/* Personal Information Section */}
                 <section className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white flex items-center">

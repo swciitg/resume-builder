@@ -8,6 +8,7 @@ const userSchema = new Schema({
     unique: true,
     required: true,
   },
+  fontSize: { type: Number, default: 11 , min:9, max:12},
   personalInfo: {
     name: { type: String },
     rollNumber: { type: String },
