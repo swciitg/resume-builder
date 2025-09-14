@@ -247,7 +247,7 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
         {isModalOpen && (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
         <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-[90%] text-center animate-fade-in">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Delete This Category?</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-3">Delete This Section?</h2>
             <p className="text-gray-600 mb-6">
     This will permanently delete an entry from your <span className="font-semibold text-gray-800">{deleteTarget.section}</span> section. Are you sure you want to continue?
 </p>
