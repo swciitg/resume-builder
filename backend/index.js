@@ -84,7 +84,7 @@ passport.deserializeUser(async (oid, done) => {
 });
 
 app.get('/auth/azuread', passport.authenticate('azuread-openidconnect', {failureRedirect: '/',prompt:'login',
-    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder/`}));
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/`}));
 
 
 app.get('/auth/logout', (req, res) => {
