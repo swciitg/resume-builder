@@ -105,7 +105,7 @@ app.get('/auth/logout', (req, res) => {
 app.get('/auth/azuread/callback',
   passport.authenticate('azuread-openidconnect', {
     failureRedirect: '/',
-    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/resume-builder`,
+    successRedirect: `${process.env.REACT_APP_CLIENT_URL}/`,
   })
 );
 
