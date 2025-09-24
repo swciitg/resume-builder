@@ -1,12 +1,13 @@
 const express = require('express');
 const fs = require('fs');
-const { exec } = require('child_process');
 const cors = require('cors');
 const app = express();
 const session = require('express-session');
 const passport = require('passport');
 const userRoute = require("./route/user-route");
 const User = require('./schema/userSchema');
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 const { OIDCStrategy } = require('passport-azure-ad');
 
 require('dotenv').config();
@@ -125,33 +126,43 @@ app.get('/api/user', async (req, res) => {
   }
 });
 
-
-
-
 app.use("/saveprogress",userRoute);
-app.post('/compile', async (req, res) => {
-  // console.log(req.body);
+app.post("/compile", async (req, res) => {
   try {
     const latexCode = req.body.latexCode;
-    const fileName = 'resume';
-    
+    const fileName = "resume";
+
     if (!latexCode) {
-      return res.status(400).send('No LaTeX code provided');
+      return res.status(400).send("No LaTeX code provided");
     }
+
     fs.writeFileSync(`${fileName}.tex`, latexCode);
 
-    exec(`pdflatex -interaction=nonstopmode ${fileName}.tex`, (err, stdout, stderr) => {
-      
-      const pdf = fs.readFileSync(`${fileName}.pdf`);
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=resume.pdf');
-      res.send(pdf);
+    try {
+      await exec(`pdflatex -interaction=nonstopmode ${fileName}.tex`);
+    } catch (err) {
+      console.error("LaTeX compilation error:", err.stderr || err);
+      return res.status(500).send("LaTeX compilation failed");
+    }
 
-      ['aux', 'log', 'pdf', 'tex'].forEach(ext => fs.unlinkSync(`${fileName}.${ext}`));
+    const pdfPath = `${fileName}.pdf`;
+    if (!fs.existsSync(pdfPath)) {
+      return res.status(500).send("PDF not generated");
+    }
+    const pdf = fs.readFileSync(pdfPath);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
+    res.send(pdf);
+
+    ["aux", "log", "pdf", "tex"].forEach(ext => {
+      if (fs.existsSync(`${fileName}.${ext}`)) {
+        fs.unlinkSync(`${fileName}.${ext}`);
+      }
     });
+
   } catch (e) {
-    console.error('Internal Server Error:', e);
-    res.status(500).send('Server error');
+    console.error("Internal Server Error:", e);
+    res.status(500).send("Server error");
   }
 });
 
