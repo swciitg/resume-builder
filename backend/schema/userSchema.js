@@ -8,7 +8,23 @@ const userSchema = new Schema({
     unique: true,
     required: true,
   },
-  fontSize: { type: Number, default: 11 , min:9, max:12},
+  fontSize: { type: Number, default: 11, min: 9, max: 12 },
+
+  sectionOrder: {
+    type: [String],
+    default: [
+      "personalInfo",
+      "education",
+      "experience",
+      "projects",
+      "technicalSkills",
+      "positions",
+      "achievements",
+      "courses",
+      "extracaurriculars"
+    ]
+  },
+
   personalInfo: {
     name: { type: String },
     rollNumber: { type: String },
@@ -17,8 +33,8 @@ const userSchema = new Schema({
     email: { type: String },
     githubProfile: { type: String },
     linkedinProfile: { type: String },
-    secondaryEmail:{type:String},
-    website:{type:String},
+    secondaryEmail: { type: String },
+    website: { type: String },
   },
   education: [
     {
@@ -31,8 +47,8 @@ const userSchema = new Schema({
   experience: [
     {
       role: { type: String },
-      company: { type: String},
-      timeline: { type: String},
+      company: { type: String },
+      timeline: { type: String },
       location: { type: String },
       workDone: [{ type: String }],
     },
@@ -70,7 +86,7 @@ const userSchema = new Schema({
     {
       title: { type: String },
       organization: { type: String },
-      timeline: { type: String},
+      timeline: { type: String },
       description: [{ type: String }],
     },
   ],
@@ -82,7 +98,7 @@ const userSchema = new Schema({
     },
   ],
 
-} , {timestamps: true});
+}, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
