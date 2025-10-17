@@ -28,7 +28,7 @@ module.exports.saveProgress = async (req, res) => {
     }
 
     try {
-        const updatedData = req.body.resumeData;
+        const updatedData = req.body.resumeData || {};
         const userId = req.user.userId;
         const user = await User.findOne({ userId: userId });
 
