@@ -16,17 +16,18 @@ const DraggableSection = ({ id, children }) => {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-    touchAction: 'none'
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} >
-      <div className="cursor-move bg-gray-50 dark:bg-gray-800 p-2 mb-2 rounded flex items-center justify-center">
+    <div ref={setNodeRef} {...attributes} className='bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-800 p-6 pt-1 rounded-xl outline outline-slate-300 shadow-sm mb-8' style={{touchAction: 'none'}}>
+      <div className="cursor-move dark:bg-gray-800 p-1 mb-1 rounded flex items-center justify-center" {...listeners}>
         <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
         </svg>
       </div>
-      {children}
+      <div style={style}>
+        {children}
+      </div>
     </div>
   );
 };

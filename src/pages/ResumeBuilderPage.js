@@ -25,9 +25,9 @@ function ResumeBuilderPage({ apiUser }) {
     "education",
     "experience",
     "projects",
-    "skills",
+    "technicalSkills",
     "courses",
-    "pors",
+    "positions",
     "extracaurriculars",
     "achievements",
   ]);
@@ -179,13 +179,13 @@ function ResumeBuilderPage({ apiUser }) {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    if (active.id === over.id) return;
-    if (active.id !== over.id) {
+    if (active?.id === over?.id) return;
+    if (active?.id !== over?.id) {
     setSectionOrder((items) => {
-      const oldIndex = items.indexOf(active.id);
-      const newIndex = items.indexOf(over.id);
-      
-      return arrayMove(items, oldIndex, newIndex);
+      const oldIndex = items.indexOf(active?.id);
+      const newIndex = items.indexOf(over?.id);
+      const newOrder = arrayMove(items, oldIndex, newIndex);
+      return newOrder;
     });
   }
   };
