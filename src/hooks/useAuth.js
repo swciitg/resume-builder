@@ -9,6 +9,7 @@ export function useAuth() {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user`, { withCredentials: true })
       .then(res => {
+         setLoading(true);
         if (res.data.authenticated) {
           setUser(res.data.user);
           setAuthenticated(true);
