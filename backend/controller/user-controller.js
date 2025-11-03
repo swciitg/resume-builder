@@ -28,22 +28,31 @@ module.exports.saveProgress = async (req, res) => {
     }
 
     try {
-        const updatedData = req.body.resumeData;
+        const updatedData = req.body.resumeData || {};
         const userId = req.user.userId;
         const user = await User.findOne({ userId: userId });
+
+        //get the keys of the updatedData
+        const sectionOrder = Object.keys(updatedData);
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
+        // Create the object for the database update
+        const updates = {
+            ...updatedData,
+            sectionOrder: sectionOrder
+        };
+
         // ✅ Ensure fontSize is preserved if frontend didn’t send it
-        if (!updatedData.fontSize) {
-            updatedData.fontSize = user.fontSize || 11;
+        if (!updates.fontSize) {
+            updates.fontSize = user.fontSize || 11;
         }
 
         const updatedUser = await User.findByIdAndUpdate(
             user._id,
-            { $set: updatedData },
+            { $set: updates },
             { new: true }
         );
 
