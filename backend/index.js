@@ -141,7 +141,11 @@ app.post('/compile', async (req, res) => {
     fs.writeFileSync(`${fileName}.tex`, latexCode);
 
     exec(`pdflatex -interaction=nonstopmode ${fileName}.tex`, (err, stdout, stderr) => {
-      
+      if (err) {
+           console.log("Error in /compile");
+           console.log(err);
+           return res.status(500).json({message : "Failed to compile. Please try later"});
+        }
       const pdf = fs.readFileSync(`${fileName}.pdf`);
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', 'attachment; filename=resume.pdf');
