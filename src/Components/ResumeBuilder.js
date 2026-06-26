@@ -33,7 +33,7 @@ const ResumeBuilder = ({ user, setUser, resumeData, setResumeData, errors, setEr
 
     const handleInputChange = (section, index, field, value) => {
         const updatedData = { ...resumeData };
-        updatedData[section][index][field] = value;
+        updatedData[section][index][field] = value.replace(/(?<!\\)%/g, '\\%');
         setResumeData(updatedData);
     };
 
