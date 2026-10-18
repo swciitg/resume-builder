@@ -76,32 +76,38 @@ const ResumeBuilder = ({
   };
 
   const addEntry = (section) => {
-    if (!templates || !templates[section]) return;
+  if (!templates || !templates[section]) return;
 
-    const currentEntries = resumeData[section] || [];
-    const lastEntry = currentEntries.at(-1);
-    if (lastEntry && requiredFields[section]) {
-      const missingField = requiredFields[section].some(
-        (field) =>
-          !lastEntry[field] || lastEntry[field].toString().trim() === ""
+  const currentEntries = resumeData[section] || [];
+  const lastEntry = currentEntries.at(-1);
+
+  if (lastEntry && requiredFields[section]) {
+    const missingField = requiredFields[section].some(
+      (field) =>
+        !lastEntry[field] || lastEntry[field].toString().trim() === ""
+    );
+
+    if (missingField) {
+      toast.error(
+        "Please complete the previous entry before adding a new one."
       );
-
-      if (missingField) {
-        toast.error(
-          "Please complete the previous entry before adding a new one."
-        );
-        return;
-      }
+      return;
     }
+  }
 
-    setResumeData((prevData) => {
-      const updatedSection = [...(prevData[section] || []), templates[section]];
-      return {
-        ...prevData,
-        [section]: updatedSection,
-      };
-    });
-  };
+  // Create a separate object for every new entry.
+  const newEntry = Object.fromEntries(
+    Object.entries(templates[section]).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? [...value] : value,
+    ])
+  );
+
+  setResumeData((prevData) => ({
+    ...prevData,
+    [section]: [...(prevData[section] || []), newEntry],
+  }));
+};
 
   const deleteEntry = (section, index) => {
     setResumeData((prevData) => {

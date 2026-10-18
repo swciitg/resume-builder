@@ -87,13 +87,13 @@ function ResumeBuilderPage({ apiUser }) {
       title: "",
       organization: "",
       timeline: "",
-      description: [],
+      description: [""],
     },
     extracaurriculars: {
       title: "",
       organization: "",
       timeline: "",
-      description: [],
+      description: [""],
     },
     achievements: {
       title: "",
